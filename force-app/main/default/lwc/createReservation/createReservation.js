@@ -2,6 +2,7 @@ import { LightningElement, track, wire } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import getContact from "@salesforce/apex/createReservationController.getContact";
 import getResources from "@salesforce/apex/createReservationController.getResources";
+import createReservation from "@salesforce/apex/createReservationController.createReservation";
 
 export default class CreateReservation extends LightningElement {
     @track isSubmitting = false;
@@ -50,6 +51,18 @@ export default class CreateReservation extends LightningElement {
         if (!this.validateForm()) {
             this.showBanner("Please correct the errors on the form.", "error");
         } else {
+            createReservation({
+                contactId: this.contactId,
+                resourceId: this.resource,
+                startDate: this.startTime,
+                endDate: this.endTime
+            })
+                .then(() => {
+                    this.showBanner("Reservation created successfully.", "success");
+                })
+                .catch((error) => {
+                    this.showBanner("An error occurred while creating the reservation.", "error");
+                });
         }
     }
 

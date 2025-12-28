@@ -7,9 +7,11 @@ public with sharing class createReservationController {
             if (e.getMessage().contains('List has no rows for assignment to SObject')) {
                 return null;
             } else {
+                System.debug(LoggingLevel.ERROR, 'Error retrieving contact: ' + e.getMessage());
                 throw new AuraHandledException('Error retrieving contact: ' + e.getMessage());
             }
         } catch (Exception e) {
+            System.debug(LoggingLevel.ERROR, 'Error retrieving contact: ' + e.getMessage());
             throw new AuraHandledException('Error retrieving contact: ' + e.getMessage());
         }
     }
@@ -27,18 +29,22 @@ public with sharing class createReservationController {
             if (e.getMessage().contains('List has no rows for assignment to SObject')) {
                 return new List<createReservationHelper.Option>();
             } else {
+                System.debug(LoggingLevel.ERROR, 'Error during retrieval of resources: ' + e.getMessage());
                 throw new AuraHandledException('Error retrieving resources: ' + e.getMessage());
             }
         } catch (Exception e) {
+            System.debug(LoggingLevel.ERROR, 'Error during retrieval of resources: ' + e.getMessage());
             throw new AuraHandledException('Error retrieving resources: ' + e.getMessage());
         }
     }
 
     @AuraEnabled
-    public static string methodName() {
+    public static void createReservation(Id contactId, Id resourceId, Datetime startDate, Datetime endDate) {
         try {
+            insert new Reservation__c(Contact__c = contactId, Resource__c = resourceId, Start_time__c = startDate, End_time__c = endDate);
         } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage());
+            System.debug(LoggingLevel.ERROR, 'Error during creation of reservation: ' + e.getMessage());
+            throw new AuraHandledException('An error occurred during creation of reservation: ' + e.getMessage());
         }
     }
 }
