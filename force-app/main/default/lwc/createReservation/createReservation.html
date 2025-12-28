@@ -1,0 +1,54 @@
+<template>
+    <lightning-card title="Create Reservation" icon-name="standard:event">
+        <template if:true={message}>
+            <div class={messageClass}>{message}</div>
+        </template>
+
+        <lightning-input label="Contact last name" required name="lastName" onchange={handleChange}></lightning-input>
+        <lightning-input label="Contact email" required name="email" onchange={handleChange}></lightning-input>
+        <lightning-button label="Search Contact" onclick={handleSearchContact}></lightning-button>
+        <lightning-combobox
+            required
+            label="Resource"
+            name="resource"
+            options={resources}
+            value={resource}
+            onchange={handleChange}
+        ></lightning-combobox>
+        <lightning-input type="datetime" required name="startTime" label="Start time" onchange={handleChange}></lightning-input>
+        <lightning-input type="datetime" required name="endTime" label="End time" onchange={handleChange}></lightning-input>
+        <lightning-button label="Create Reservation" variant="brand" onclick={handleSubmit}></lightning-button>
+        <!-- <div class="slds-p-around_medium">
+            <lightning-record-edit-form
+                object-api-name="Reservation__c"
+                onsuccess={handleSuccess}
+                onerror={handleError}
+                onsubmit={handleSubmit}
+                density="comfy"
+            >
+                <div class="slds-grid slds-wrap slds-gutters">
+                    <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-2">
+                        <lightning-input-field field-name="Contact__c"></lightning-input-field>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-2">
+                        <lightning-input-field field-name="Resource__c"></lightning-input-field>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-2">
+                        <lightning-input-field field-name="Start_time__c"></lightning-input-field>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-2">
+                        <lightning-input-field field-name="End_time__c"></lightning-input-field>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-1">
+                        <lightning-input-field field-name="Status__c"></lightning-input-field>
+                    </div>
+                </div>
+
+                <div class="slds-m-top_medium slds-grid slds-grid_align-end">
+                    <lightning-button variant="neutral" label="Reset" onclick={handleReset} class="slds-m-right_small"></lightning-button>
+                    <lightning-button variant="brand" type="submit" label="Create" disabled={isSubmitting}></lightning-button>
+                </div>
+            </lightning-record-edit-form>
+        </div> -->
+    </lightning-card>
+</template>
