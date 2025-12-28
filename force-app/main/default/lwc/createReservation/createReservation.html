@@ -4,20 +4,34 @@
             <div class={messageClass}>{message}</div>
         </template>
 
-        <lightning-input label="Contact last name" required name="lastName" onchange={handleChange}></lightning-input>
-        <lightning-input label="Contact email" required name="email" onchange={handleChange}></lightning-input>
-        <lightning-button label="Search Contact" onclick={handleSearchContact}></lightning-button>
-        <lightning-combobox
+        <lightning-input
+            label="Contact last name"
             required
-            label="Resource"
-            name="resource"
-            options={resources}
-            value={resource}
+            name="lastName"
             onchange={handleChange}
-        ></lightning-combobox>
-        <lightning-input type="datetime" required name="startTime" label="Start time" onchange={handleChange}></lightning-input>
-        <lightning-input type="datetime" required name="endTime" label="End time" onchange={handleChange}></lightning-input>
-        <lightning-button label="Create Reservation" variant="brand" onclick={handleSubmit}></lightning-button>
-        <lightning-button label="Reset" variant="brand" onclick={handleReset}></lightning-button>
+            disabled={searchContactDisabled}
+        ></lightning-input>
+        <lightning-input
+            label="Contact email"
+            required
+            name="email"
+            onchange={handleChange}
+            disabled={searchContactDisabled}
+        ></lightning-input>
+        <lightning-button label="Search Contact" onclick={handleSearchContact}></lightning-button>
+        <template if:true={contactId}>
+            <lightning-combobox
+                required
+                label="Resource"
+                name="resource"
+                options={resources}
+                value={resource}
+                onchange={handleChange}
+            ></lightning-combobox>
+            <lightning-input type="datetime" required name="startTime" label="Start time" onchange={handleChange}></lightning-input>
+            <lightning-input type="datetime" required name="endTime" label="End time" onchange={handleChange}></lightning-input>
+            <lightning-button label="Create Reservation" variant="brand" onclick={handleSubmit}></lightning-button>
+            <lightning-button label="Reset" variant="brand" onclick={handleReset}></lightning-button>
+        </template>
     </lightning-card>
 </template>

@@ -68,6 +68,7 @@ export default class CreateReservation extends LightningElement {
 
     handleReset() {
         this.resetForm();
+        this.contactId = null;
     }
 
     resetForm() {
@@ -104,5 +105,9 @@ export default class CreateReservation extends LightningElement {
         });
 
         return isValid;
+    }
+
+    get searchContactDisabled() {
+        return this.contactId !== undefined && this.contactId !== null;
     }
 }
