@@ -1,5 +1,4 @@
 import { LightningElement, track, wire } from "lwc";
-import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import getContact from "@salesforce/apex/createReservationController.getContact";
 import getResources from "@salesforce/apex/createReservationController.getResources";
 import createReservation from "@salesforce/apex/createReservationController.createReservation";
