@@ -20,7 +20,6 @@ export default class CreateReservation extends LightningElement {
     wireResources({ error, data }) {
         if (data) {
             this.resources = data;
-            console.log("Resources retrieved: ", JSON.stringify(this.resources));
         } else if (error) {
             console.error("Error retrieving resources: ", error);
         }
@@ -31,20 +30,16 @@ export default class CreateReservation extends LightningElement {
             getContact({ lastName: this.lastName, email: this.email })
                 .then((result) => {
                     this.contactId = result;
-                    console.log("Contact found: ", JSON.stringify(this.contactId));
                     this.showBanner("Contact found.", "success");
                 })
                 .catch((error) => {
-                    console.log("Error retrieving contact: ", error);
-                    this.showBanner("No contact found with the provided details.", "error");
+                    this.showBanner("No contact found with the provided details.Error details: " + error, "error");
                 });
         }
     }
     handleChange(event) {
         const { name, value } = event.target;
         this[name] = value;
-
-        console.log(`name: ${name}, Value: ${value}`);
     }
 
     handleSubmit() {
@@ -59,24 +54,12 @@ export default class CreateReservation extends LightningElement {
             })
                 .then(() => {
                     this.showBanner("Reservation created successfully.", "success");
+                    this.resetForm();
                 })
                 .catch((error) => {
-                    this.showBanner("An error occurred while creating the reservation.", "error");
+                    this.showBanner(error.body.message, "error");
                 });
         }
-    }
-
-    handleSuccess(event) {
-        this.isSubmitting = false;
-        const evt = new ShowToastEvent({
-            title: "Reservation created",
-            message: "Record Id: " + event.detail.id,
-            variant: "success"
-        });
-        this.dispatchEvent(evt);
-
-        // Reset form
-        this.resetForm();
     }
 
     showBanner(message, variant) {
@@ -84,29 +67,15 @@ export default class CreateReservation extends LightningElement {
         this.messageVariant = variant;
     }
 
-    handleError(event) {
-        this.isSubmitting = false;
-        const message = (event && event.detail && event.detail.message) || "An error occurred while creating the reservation.";
-        this.dispatchEvent(
-            new ShowToastEvent({
-                title: "Error",
-                message,
-                variant: "error"
-            })
-        );
-    }
-
     handleReset() {
         this.resetForm();
     }
 
     resetForm() {
-        const form = this.template.querySelector("lightning-record-edit-form");
-        if (form) {
-            // Reset all lightning-input-field children
-            const fields = form.querySelectorAll("lightning-input-field");
-            fields.forEach((f) => f.reset());
-        }
+        this.template.querySelectorAll("lightning-input, lightning-combobox").forEach((el) => {
+            el.value = null;
+        });
+        this.showBanner(null, null);
     }
 
     get messageClass() {
@@ -122,7 +91,7 @@ export default class CreateReservation extends LightningElement {
         const end = this.template.querySelector('[name="endTime"]');
 
         if (start?.value && end?.value && end.value <= start.value) {
-            end.setCustomValidity("End time must be after Start time");
+            end.setCustomValidity("End time must be after start time");
             isValid = false;
         } else {
             end?.setCustomValidity("");
