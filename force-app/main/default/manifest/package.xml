@@ -44,6 +44,18 @@
 		<name>DigitalExperience</name>
 	</types>
 	<types>
+		<members>site/create_reservation1</members>
+		<name>DigitalExperienceBundle</name>
+	</types>
+	<types>
+		<members>create_reservation1</members>
+		<name>DigitalExperienceConfig</name>
+	</types>
+	<types>
+		<members>Reservation_Manager_UtilityBar</members>
+		<name>FlexiPage</name>
+	</types>
+	<types>
 		<members>RM_Administrator</members>
 		<name>PermissionSet</name>
 	</types>

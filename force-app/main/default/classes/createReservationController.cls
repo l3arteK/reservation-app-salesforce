@@ -23,6 +23,7 @@ public with sharing class createReservationController {
             for (Resource__c res : [SELECT Id, Name FROM Resource__c WHERE Status__c = 'Free']) {
                 options.add(new createReservationHelper.Option(res.Name, res.Id));
             }
+            return options;
         } catch (QueryException e) {
             if (e.getMessage().contains('List has no rows for assignment to SObject')) {
                 return new List<createReservationHelper.Option>();
