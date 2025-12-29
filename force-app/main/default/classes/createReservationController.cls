@@ -23,8 +23,6 @@ public with sharing class createReservationController {
             for (Resource__c res : [SELECT Id, Name FROM Resource__c WHERE Status__c = 'Free']) {
                 options.add(new createReservationHelper.Option(res.Name, res.Id));
             }
-
-            return options;
         } catch (QueryException e) {
             if (e.getMessage().contains('List has no rows for assignment to SObject')) {
                 return new List<createReservationHelper.Option>();
@@ -46,5 +44,16 @@ public with sharing class createReservationController {
             System.debug(LoggingLevel.ERROR, 'Error during creation of reservation: ' + e.getMessage());
             throw new AuraHandledException('An error occurred during creation of reservation: ' + e.getMessage());
         }
+    }
+
+    public static Map<Id, List<createReservationHelper.ReservationRange>> getReservationRanges() {
+        Map<Id, List<createReservationHelper.ReservationRange>> reservationMap = new Map<Id, List<createReservationHelper.ReservationRange>>();
+        for (Reservation__c res : [SELECT Id, Resource__c, Start_time__c, End_time__c FROM Reservation__c]) {
+            if (!reservationMap.containsKey(res.Resource__c)) {
+                reservationMap.put(res.Resource__c, new List<createReservationHelper.ReservationRange>());
+            }
+            reservationMap.get(res.Resource__c).add(new createReservationHelper.ReservationRange(res.Start_time__c, res.End_time__c));
+        }
+        return reservationMap;
     }
 }

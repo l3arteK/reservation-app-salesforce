@@ -10,4 +10,13 @@ public with sharing class createReservationHelper {
             this.value = value;
         }
     }
+    public class ReservationRange {
+        public Datetime startTime;
+        public Datetime endTime;
+
+        public ReservationRange(Datetime s, Datetime e) {
+            startTime = s;
+            endTime = e;
+        }
+    }
 }
