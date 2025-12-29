@@ -2,7 +2,7 @@ import { LightningElement, track, wire } from "lwc";
 import getContact from "@salesforce/apex/createReservationController.getContact";
 import getResources from "@salesforce/apex/createReservationController.getResources";
 import createReservation from "@salesforce/apex/createReservationController.createReservation";
-import { ShowToastEvent } from "lightning/platformShowToastEvent";
+
 export default class CreateReservation extends LightningElement {
     @track isSubmitting = false;
     contactId;
