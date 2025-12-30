@@ -1,5 +1,19 @@
 import { LightningElement } from "lwc";
 const today = new Date();
+const MONTH_NAMES = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+];
 
 export default class CustomDatePicker extends LightningElement {
     isDatePickerOpen = false;
@@ -14,7 +28,16 @@ export default class CustomDatePicker extends LightningElement {
     connectedCallback() {
         this.generateDays();
         this.buildWeeks();
+        document.addEventListener("click", this.handleOutsideClick);
     }
+
+    disconnectedCallback() {
+        document.removeEventListener("click", this.handleOutsideClick);
+    }
+
+    handleOutsideClick = () => {
+        this.isDatePickerOpen = false;
+    };
 
     generateDays() {
         const daysInMonth = new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
@@ -24,12 +47,25 @@ export default class CustomDatePicker extends LightningElement {
         }));
     }
 
+    renderedCallback() {
+        if (this.isDatePickerOpen) {
+            this.markToday();
+        }
+    }
+
+    clearTodayMarker() {
+        this.template.querySelectorAll(".slds-is-today").forEach((cell) => {
+            cell.classList.remove("slds-is-today");
+            cell.removeAttribute("aria-current");
+        });
+    }
+
     markToday() {
+        this.clearTodayMarker();
         if (today.getMonth() !== this.currentMonth || today.getFullYear() !== this.currentYear) {
             return;
         }
-
-        const todayCell = this.template.querySelector(`[data-day="${today.getDate()}"]`);
+        const todayCell = this.template.querySelector(`td[data-day="${today.getDate()}"]:not(.slds-day_adjacent-month)`);
 
         if (todayCell) {
             todayCell.classList.add("slds-is-today");
@@ -37,8 +73,41 @@ export default class CustomDatePicker extends LightningElement {
         }
     }
 
-    toggleDatePicker() {
+    toggleDatePicker(event) {
+        event.stopPropagation();
         this.isDatePickerOpen = !this.isDatePickerOpen;
+    }
+
+    handleYearChange(event) {
+        this.currentYear = Number(event.target.value);
+        this.refreshCalendar();
+    }
+
+    handlePrevMonth() {
+        if (this.currentMonth === 0) {
+            this.currentMonth = 11;
+            this.currentYear--;
+        } else {
+            this.currentMonth--;
+        }
+
+        this.refreshCalendar();
+    }
+
+    handleNextMonth() {
+        if (this.currentMonth === 11) {
+            this.currentMonth = 0;
+            this.currentYear++;
+        } else {
+            this.currentMonth++;
+        }
+
+        this.refreshCalendar();
+    }
+
+    refreshCalendar() {
+        this.generateDays();
+        this.buildWeeks();
     }
 
     buildWeeks() {
@@ -53,9 +122,7 @@ export default class CustomDatePicker extends LightningElement {
 
     buildCalendarDays() {
         const firstDay = new Date(this.currentYear, this.currentMonth, 1).getDay();
-
         const daysInMonth = new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
-
         const daysInPrevMonth = new Date(this.currentYear, this.currentMonth, 0).getDate();
 
         const days = [];
@@ -88,5 +155,19 @@ export default class CustomDatePicker extends LightningElement {
         return this.isDatePickerOpen
             ? "slds-form-element slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open"
             : "slds-form-element slds-dropdown-trigger slds-dropdown-trigger_click";
+    }
+
+    get currentMonthLabel() {
+        return MONTH_NAMES[this.currentMonth];
+    }
+
+    get yearOptions() {
+        const current = today.getFullYear();
+        const years = [];
+
+        for (let i = current - 5; i <= current + 5; i++) {
+            years.push({ label: i, value: i });
+        }
+        return years;
     }
 }
