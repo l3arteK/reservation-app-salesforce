@@ -1,4 +1,4 @@
-import { LightningElement } from "lwc";
+import { LightningElement, api } from "lwc";
 const today = new Date();
 const MONTH_NAMES = [
     "January",
@@ -23,6 +23,7 @@ export default class CustomDatePicker extends LightningElement {
     currentDay;
     rangeStart;
     rangeEnd;
+    @api disabledDates;
 
     days = [];
     weeks = [];
@@ -57,6 +58,19 @@ export default class CustomDatePicker extends LightningElement {
         }));
     }
 
+    isDateDisabled(date) {
+        today.setHours(0, 0, 0, 0);
+
+        const isPast = date < today;
+
+        const isInDisabledList = this.disabledDates.some((disabled) => {
+            const d = new Date(disabled);
+            return d.getFullYear() === date.getFullYear() && d.getMonth() === date.getMonth() && d.getDate() === date.getDate();
+        });
+
+        return isPast || isInDisabledList;
+    }
+
     clearTodayMarker() {
         this.template.querySelectorAll(".slds-is-today").forEach((cell) => {
             cell.classList.remove("slds-is-today");
@@ -69,7 +83,7 @@ export default class CustomDatePicker extends LightningElement {
         if (today.getMonth() !== this.currentMonth || today.getFullYear() !== this.currentYear) {
             return;
         }
-        const todayCell = this.template.querySelector(`td[data-day="${today.getDate()}"]:not(.slds-day_adjacent-month)`);
+        const todayCell = this.template.querySelector(`td[data-day="${today.getDate()}"]:not(.slds-disabled-text)`);
 
         if (todayCell) {
             todayCell.classList.add("slds-is-today");
@@ -97,21 +111,23 @@ export default class CustomDatePicker extends LightningElement {
         for (let i = firstDay - 1; i >= 0; i--) {
             days.push({
                 day: daysInPrevMonth - i,
-                class: "slds-day_adjacent-month"
+                class: "slds-disabled-text"
             });
         }
 
         for (let i = 1; i <= daysInMonth; i++) {
+            const date = new Date(this.currentYear, this.currentMonth, i);
+            const isDisabled = this.isDateDisabled(date);
             days.push({
                 day: i,
-                class: ""
+                class: isDisabled ? "slds-disabled-text" : ""
             });
         }
 
         while (days.length % 7 !== 0) {
             days.push({
                 day: days.length - daysInMonth - firstDay + 1,
-                class: "slds-day_adjacent-month"
+                class: "slds-disabled-text"
             });
         }
 
@@ -139,7 +155,7 @@ export default class CustomDatePicker extends LightningElement {
 
         if (!this.rangeStart) return;
 
-        const cells = this.template.querySelectorAll("td:not(.slds-day_adjacent-month)");
+        const cells = this.template.querySelectorAll("td:not(.slds-disabled-text)");
 
         cells.forEach((cell) => {
             const day = Number(cell.dataset.day);
@@ -214,7 +230,7 @@ export default class CustomDatePicker extends LightningElement {
 
         const day = Number(event.currentTarget.dataset.day);
 
-        if (event.currentTarget.classList.contains("slds-day_adjacent-month")) {
+        if (event.currentTarget.classList.contains("slds-disabled-text")) {
             return;
         }
 
