@@ -35,9 +35,17 @@ export default class CustomDatePicker extends LightningElement {
         document.removeEventListener("click", this.handleOutsideClick);
     }
 
-    handleOutsideClick = () => {
-        this.isDatePickerOpen = false;
+    handleOutsideClick = (event) => {
+        if (!this.template.contains(event.target)) {
+            this.isDatePickerOpen = false;
+        }
     };
+
+    renderedCallback() {
+        if (this.isDatePickerOpen) {
+            this.markToday();
+        }
+    }
 
     generateDays() {
         const daysInMonth = new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
@@ -45,12 +53,6 @@ export default class CustomDatePicker extends LightningElement {
         this.days = Array.from({ length: daysInMonth }, (_, index) => ({
             day: index + 1
         }));
-    }
-
-    renderedCallback() {
-        if (this.isDatePickerOpen) {
-            this.markToday();
-        }
     }
 
     clearTodayMarker() {
@@ -71,43 +73,6 @@ export default class CustomDatePicker extends LightningElement {
             todayCell.classList.add("slds-is-today");
             todayCell.setAttribute("aria-current", "date");
         }
-    }
-
-    toggleDatePicker(event) {
-        event.stopPropagation();
-        this.isDatePickerOpen = !this.isDatePickerOpen;
-    }
-
-    handleYearChange(event) {
-        this.currentYear = Number(event.target.value);
-        this.refreshCalendar();
-    }
-
-    handlePrevMonth() {
-        if (this.currentMonth === 0) {
-            this.currentMonth = 11;
-            this.currentYear--;
-        } else {
-            this.currentMonth--;
-        }
-
-        this.refreshCalendar();
-    }
-
-    handleNextMonth() {
-        if (this.currentMonth === 11) {
-            this.currentMonth = 0;
-            this.currentYear++;
-        } else {
-            this.currentMonth++;
-        }
-
-        this.refreshCalendar();
-    }
-
-    refreshCalendar() {
-        this.generateDays();
-        this.buildWeeks();
     }
 
     buildWeeks() {
@@ -149,6 +114,49 @@ export default class CustomDatePicker extends LightningElement {
         }
 
         return days;
+    }
+
+    refreshCalendar() {
+        this.generateDays();
+        this.buildWeeks();
+    }
+
+    toggleDatePicker(event) {
+        event.stopPropagation();
+        this.isDatePickerOpen = !this.isDatePickerOpen;
+    }
+
+    handleYearChange(event) {
+        event.stopPropagation();
+        this.currentYear = Number(event.target.value);
+        this.refreshCalendar();
+    }
+    handleYearClick(event) {
+        event.stopPropagation();
+    }
+
+    handlePrevMonth(event) {
+        event.stopPropagation();
+        if (this.currentMonth === 0) {
+            this.currentMonth = 11;
+            this.currentYear--;
+        } else {
+            this.currentMonth--;
+        }
+
+        this.refreshCalendar();
+    }
+
+    handleNextMonth(event) {
+        event.stopPropagation();
+        if (this.currentMonth === 11) {
+            this.currentMonth = 0;
+            this.currentYear++;
+        } else {
+            this.currentMonth++;
+        }
+
+        this.refreshCalendar();
     }
 
     get dateTimePickerClass() {
