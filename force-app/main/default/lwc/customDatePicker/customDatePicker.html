@@ -13,7 +13,7 @@
                                     id="date-input-id-01-end_selected"
                                     placeholder=" "
                                     class="slds-input"
-                                    value="20/24/2021"
+                                    value={startDateValue}
                                     onclick={toggleDatePicker}
                                 />
                                 <button
@@ -37,7 +37,7 @@
                                     id="date-input-id-02-end_selected"
                                     placeholder=" "
                                     class="slds-input"
-                                    value="06/27/2020"
+                                    value={endDateValue}
                                     onclick={toggleDatePicker}
                                 />
                                 <button
@@ -103,7 +103,13 @@
                                         <template for:each={weeks} for:item="week">
                                             <tr key={week.day}>
                                                 <template for:each={week} for:item="day">
-                                                    <td key={day.day} role="gridcell" class={day.class} data-day={day.day}>
+                                                    <td
+                                                        key={day.day}
+                                                        role="gridcell"
+                                                        class={day.class}
+                                                        data-day={day.day}
+                                                        onclick={handleDayClick}
+                                                    >
                                                         <span class="slds-day">{day.day}</span>
                                                     </td>
                                                 </template>

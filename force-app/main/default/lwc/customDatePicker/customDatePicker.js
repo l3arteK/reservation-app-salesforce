@@ -21,6 +21,8 @@ export default class CustomDatePicker extends LightningElement {
     currentMonth = today.getMonth();
     currentYear = today.getFullYear();
     currentDay;
+    rangeStart;
+    rangeEnd;
 
     days = [];
     weeks = [];
@@ -121,9 +123,57 @@ export default class CustomDatePicker extends LightningElement {
         this.buildWeeks();
     }
 
+    createDate(day) {
+        return new Date(this.currentYear, this.currentMonth, day);
+    }
+
+    clearRangeStyles() {
+        this.template.querySelectorAll("td").forEach((cell) => {
+            cell.classList.remove("slds-is-selected", "slds-is-selected-multi");
+            cell.setAttribute("aria-selected", "false");
+        });
+    }
+
+    applyRangeStyles() {
+        this.clearRangeStyles();
+
+        if (!this.rangeStart) return;
+
+        const cells = this.template.querySelectorAll("td:not(.slds-day_adjacent-month)");
+
+        cells.forEach((cell) => {
+            const day = Number(cell.dataset.day);
+            const cellDate = this.createDate(day);
+
+            if (this.rangeStart && !this.rangeEnd && cellDate.getTime() === this.rangeStart.getTime()) {
+                cell.classList.add("slds-is-selected");
+                cell.setAttribute("aria-selected", "true");
+            }
+
+            if (this.rangeStart && this.rangeEnd) {
+                if (cellDate >= this.rangeStart && cellDate <= this.rangeEnd) {
+                    cell.classList.add("slds-is-selected");
+                    cell.setAttribute("aria-selected", "true");
+
+                    if (cellDate.getTime() === this.rangeStart.getTime() || cellDate.getTime() === this.rangeEnd.getTime()) {
+                        cell.classList.add("slds-is-selected-multi");
+                    }
+                }
+            }
+        });
+    }
+
     toggleDatePicker(event) {
         event.stopPropagation();
         this.isDatePickerOpen = !this.isDatePickerOpen;
+    }
+
+    formatDate(date) {
+        if (!date) return "";
+        const mm = String(date.getMonth() + 1).padStart(2, "0");
+        const dd = String(date.getDate()).padStart(2, "0");
+        const yyyy = date.getFullYear();
+        return `${mm}/${dd}/${yyyy}`;
     }
 
     handleYearChange(event) {
@@ -159,6 +209,30 @@ export default class CustomDatePicker extends LightningElement {
         this.refreshCalendar();
     }
 
+    handleDayClick(event) {
+        event.stopPropagation();
+
+        const day = Number(event.currentTarget.dataset.day);
+
+        if (event.currentTarget.classList.contains("slds-day_adjacent-month")) {
+            return;
+        }
+
+        const clickedDate = this.createDate(day);
+
+        if (!this.rangeStart || (this.rangeStart && this.rangeEnd)) {
+            this.rangeStart = clickedDate;
+            this.rangeEnd = null;
+        } else if (clickedDate < this.rangeStart) {
+            this.rangeStart = clickedDate;
+            this.rangeEnd = null;
+        } else {
+            this.rangeEnd = clickedDate;
+        }
+
+        this.applyRangeStyles();
+    }
+
     get dateTimePickerClass() {
         return this.isDatePickerOpen
             ? "slds-form-element slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open"
@@ -177,5 +251,13 @@ export default class CustomDatePicker extends LightningElement {
             years.push({ label: i, value: i });
         }
         return years;
+    }
+
+    get startDateValue() {
+        return this.formatDate(this.rangeStart);
+    }
+
+    get endDateValue() {
+        return this.formatDate(this.rangeEnd);
     }
 }
