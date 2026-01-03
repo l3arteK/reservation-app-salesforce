@@ -239,11 +239,21 @@ export default class CustomDatePicker extends LightningElement {
         this.dispatchEvent(
             new CustomEvent("change", {
                 detail: {
-                    startDate: this.rangeStart ? this.rangeStart.toISOString() : null,
-                    endDate: this.rangeEnd ? this.rangeEnd.toISOString() : null
+                    startDate: this.formatDateISO(this.rangeStart),
+                    endDate: this.formatDateISO(this.rangeEnd)
                 }
             })
         );
+    }
+
+    formatDateISO(date) {
+        if (!date) return null;
+
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+
+        return `${year}-${month}-${day}`;
     }
 
     get dateTimePickerClass() {
