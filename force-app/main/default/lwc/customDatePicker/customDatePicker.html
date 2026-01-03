@@ -21,7 +21,7 @@
                                     onclick={toggleDatePicker}
                                     title="Select a date"
                                 >
-                                    <svg class="slds-button__icon" aria-hidden="true">
+                                    <svg class="slds-button__icon">
                                         <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#event"></use>
                                     </svg>
                                     <span class="slds-assistive-text">Select a date</span>
@@ -45,19 +45,14 @@
                                     onclick={toggleDatePicker}
                                     title="Select a date"
                                 >
-                                    <svg class="slds-button__icon" aria-hidden="true">
+                                    <svg class="slds-button__icon">
                                         <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#event"></use>
                                     </svg>
                                     <span class="slds-assistive-text">Select a date</span>
                                 </button>
                             </div>
                             <div class="slds-form-element__help slds-assistive-text">Format: 12/31/2024</div>
-                            <div
-                                aria-hidden="false"
-                                aria-label="Date picker: June"
-                                class="slds-datepicker slds-dropdown slds-dropdown_left"
-                                role="dialog"
-                            >
+                            <div class="slds-datepicker slds-dropdown slds-dropdown_left" role="dialog">
                                 <div class="slds-datepicker__filter slds-grid">
                                     <div class="slds-datepicker__filter_month slds-grid slds-grid_align-spread slds-grow">
                                         <div class="slds-align-middle">
@@ -66,22 +61,20 @@
                                                 onclick={handlePrevMonth}
                                                 title="Previous Month"
                                             >
-                                                <svg class="slds-button__icon" aria-hidden="true">
+                                                <svg class="slds-button__icon">
                                                     <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
                                                 </svg>
                                                 <span class="slds-assistive-text">Previous Month</span>
                                             </button>
                                         </div>
-                                        <h2 aria-atomic="false" aria-live="polite" class="slds-align-middle" id="rangeWeekSame_end-month">
-                                            {currentMonthLabel}
-                                        </h2>
+                                        <h2 class="slds-align-middle" id="rangeWeekSame_end-month">{currentMonthLabel}</h2>
                                         <div class="slds-align-middle">
                                             <button
                                                 class="slds-button slds-button_icon slds-button_icon-container"
                                                 onclick={handleNextMonth}
                                                 title="Next Month"
                                             >
-                                                <svg class="slds-button__icon" aria-hidden="true">
+                                                <svg class="slds-button__icon">
                                                     <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#right"></use>
                                                 </svg>
                                                 <span class="slds-assistive-text">Next Month</span>
@@ -117,8 +110,6 @@
                                         </template>
                                     </tbody>
                                 </table>
-
-                                <button class="slds-button slds-align_absolute-center slds-text-link">Today</button>
                             </div>
                         </div>
                     </div>
