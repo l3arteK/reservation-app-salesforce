@@ -25,11 +25,9 @@ export default class CustomDatePicker extends LightningElement {
     rangeEnd;
     @api disabledDates;
 
-    days = [];
     weeks = [];
 
     connectedCallback() {
-        this.generateDays();
         this.buildWeeks();
         document.addEventListener("click", this.handleOutsideClick);
     }
@@ -47,15 +45,8 @@ export default class CustomDatePicker extends LightningElement {
     renderedCallback() {
         if (this.isDatePickerOpen) {
             this.markToday();
+            this.applyRangeStyles();
         }
-    }
-
-    generateDays() {
-        const daysInMonth = new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
-
-        this.days = Array.from({ length: daysInMonth }, (_, index) => ({
-            day: index + 1
-        }));
     }
 
     isDateDisabled(date) {
@@ -63,7 +54,7 @@ export default class CustomDatePicker extends LightningElement {
 
         const isPast = date < today;
 
-        const isInDisabledList = this.disabledDates.some((disabled) => {
+        const isInDisabledList = this.disabledDates?.some((disabled) => {
             const d = new Date(disabled);
             return d.getFullYear() === date.getFullYear() && d.getMonth() === date.getMonth() && d.getDate() === date.getDate();
         });
@@ -135,7 +126,6 @@ export default class CustomDatePicker extends LightningElement {
     }
 
     refreshCalendar() {
-        this.generateDays();
         this.buildWeeks();
     }
 
