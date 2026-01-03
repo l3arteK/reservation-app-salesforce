@@ -237,6 +237,18 @@ export default class CustomDatePicker extends LightningElement {
         }
 
         this.applyRangeStyles();
+        this.emitChange();
+    }
+
+    emitChange() {
+        this.dispatchEvent(
+            new CustomEvent("change", {
+                detail: {
+                    startDate: this.rangeStart ? this.rangeStart.toISOString() : null,
+                    endDate: this.rangeEnd ? this.rangeEnd.toISOString() : null
+                }
+            })
+        );
     }
 
     get dateTimePickerClass() {
