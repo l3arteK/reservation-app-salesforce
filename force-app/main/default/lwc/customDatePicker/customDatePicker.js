@@ -65,7 +65,6 @@ export default class CustomDatePicker extends LightningElement {
     clearTodayMarker() {
         this.template.querySelectorAll(".slds-is-today").forEach((cell) => {
             cell.classList.remove("slds-is-today");
-            cell.removeAttribute("aria-current");
         });
     }
 
@@ -78,7 +77,6 @@ export default class CustomDatePicker extends LightningElement {
 
         if (todayCell) {
             todayCell.classList.add("slds-is-today");
-            todayCell.setAttribute("aria-current", "date");
         }
     }
 
@@ -136,7 +134,6 @@ export default class CustomDatePicker extends LightningElement {
     clearRangeStyles() {
         this.template.querySelectorAll("td").forEach((cell) => {
             cell.classList.remove("slds-is-selected", "slds-is-selected-multi");
-            cell.setAttribute("aria-selected", "false");
         });
     }
 
@@ -153,13 +150,11 @@ export default class CustomDatePicker extends LightningElement {
 
             if (this.rangeStart && !this.rangeEnd && cellDate.getTime() === this.rangeStart.getTime()) {
                 cell.classList.add("slds-is-selected");
-                cell.setAttribute("aria-selected", "true");
             }
 
             if (this.rangeStart && this.rangeEnd) {
                 if (cellDate >= this.rangeStart && cellDate <= this.rangeEnd) {
                     cell.classList.add("slds-is-selected");
-                    cell.setAttribute("aria-selected", "true");
 
                     if (cellDate.getTime() === this.rangeStart.getTime() || cellDate.getTime() === this.rangeEnd.getTime()) {
                         cell.classList.add("slds-is-selected-multi");
