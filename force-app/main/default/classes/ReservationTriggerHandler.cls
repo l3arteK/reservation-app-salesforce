@@ -25,9 +25,11 @@ public with sharing class ReservationTriggerHandler {
                 ' - ' +
                 (r != null ? r.Name : 'Unknown Resource') +
                 ' ' +
-                res.Start_time__c.format('yyyy-MM-dd HH:mm') +
+                '(' +
+                res.Start_date__c.format() +
                 ' to ' +
-                res.End_time__c.format('yyyy-MM-dd HH:mm');
+                res.End_date__c.format() +
+                ')';
         }
     }
 

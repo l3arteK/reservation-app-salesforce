@@ -38,9 +38,9 @@ public with sharing class createReservationController {
     }
 
     @AuraEnabled
-    public static void createReservation(Id contactId, Id resourceId, Datetime startDate, Datetime endDate) {
+    public static void createReservation(Id contactId, Id resourceId, Date startDate, Date endDate) {
         try {
-            insert new Reservation__c(Contact__c = contactId, Resource__c = resourceId, Start_time__c = startDate, End_time__c = endDate);
+            insert new Reservation__c(Contact__c = contactId, Resource__c = resourceId, Start_date__c = startDate, End_date__c = endDate);
         } catch (Exception e) {
             System.debug(LoggingLevel.ERROR, 'Error during creation of reservation: ' + e.getMessage());
             throw new AuraHandledException('An error occurred during creation of reservation: ' + e.getMessage());
@@ -49,11 +49,11 @@ public with sharing class createReservationController {
 
     public static Map<Id, List<createReservationHelper.ReservationRange>> getReservationRanges() {
         Map<Id, List<createReservationHelper.ReservationRange>> reservationMap = new Map<Id, List<createReservationHelper.ReservationRange>>();
-        for (Reservation__c res : [SELECT Id, Resource__c, Start_time__c, End_time__c FROM Reservation__c]) {
+        for (Reservation__c res : [SELECT Id, Resource__c, Start_date__c, End_date__c FROM Reservation__c]) {
             if (!reservationMap.containsKey(res.Resource__c)) {
                 reservationMap.put(res.Resource__c, new List<createReservationHelper.ReservationRange>());
             }
-            reservationMap.get(res.Resource__c).add(new createReservationHelper.ReservationRange(res.Start_time__c, res.End_time__c));
+            reservationMap.get(res.Resource__c).add(new createReservationHelper.ReservationRange(res.Start_date__c, res.End_date__c));
         }
         return reservationMap;
     }
