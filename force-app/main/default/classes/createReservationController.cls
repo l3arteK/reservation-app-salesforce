@@ -20,7 +20,7 @@ public with sharing class createReservationController {
     public static List<createReservationHelper.Option> getResources() {
         try {
             List<createReservationHelper.Option> options = new List<createReservationHelper.Option>();
-            for (Resource__c res : [SELECT Id, Name FROM Resource__c WHERE Status__c = 'Free']) {
+            for (Resource__c res : [SELECT Id, Name FROM Resource__c ORDER BY Name ASC]) {
                 options.add(new createReservationHelper.Option(res.Name, res.Id));
             }
             return options;
@@ -37,10 +37,32 @@ public with sharing class createReservationController {
         }
     }
 
-    @AuraEnabled
-    public static void createReservation(Id contactId, Id resourceId, Datetime startDate, Datetime endDate) {
+    @AuraEnabled(cacheable=false)
+    public static List<Date> getBookedDates(Id resourceId) {
         try {
-            insert new Reservation__c(Contact__c = contactId, Resource__c = resourceId, Start_time__c = startDate, End_time__c = endDate);
+            List<Date> bookedDates = new List<Date>();
+            for (Reservation__c res : [
+                SELECT Start_date__c, End_date__c
+                FROM Reservation__c
+                WHERE Resource__c = :resourceId AND End_date__c >= TODAY
+            ]) {
+                Date currentDate = res.Start_date__c;
+                while (currentDate <= res.End_date__c) {
+                    bookedDates.add(currentDate);
+                    currentDate = currentDate.addDays(1);
+                }
+            }
+            return bookedDates;
+        } catch (Exception e) {
+            System.debug(LoggingLevel.ERROR, 'Error during retrieval of booked dates: ' + e.getMessage());
+            throw new AuraHandledException('Error retrieving booked dates: ' + e.getMessage());
+        }
+    }
+
+    @AuraEnabled
+    public static void createReservation(Id contactId, Id resourceId, Date startDate, Date endDate) {
+        try {
+            insert new Reservation__c(Contact__c = contactId, Resource__c = resourceId, Start_date__c = startDate, End_date__c = endDate);
         } catch (Exception e) {
             System.debug(LoggingLevel.ERROR, 'Error during creation of reservation: ' + e.getMessage());
             throw new AuraHandledException('An error occurred during creation of reservation: ' + e.getMessage());
@@ -49,11 +71,11 @@ public with sharing class createReservationController {
 
     public static Map<Id, List<createReservationHelper.ReservationRange>> getReservationRanges() {
         Map<Id, List<createReservationHelper.ReservationRange>> reservationMap = new Map<Id, List<createReservationHelper.ReservationRange>>();
-        for (Reservation__c res : [SELECT Id, Resource__c, Start_time__c, End_time__c FROM Reservation__c]) {
+        for (Reservation__c res : [SELECT Id, Resource__c, Start_date__c, End_date__c FROM Reservation__c]) {
             if (!reservationMap.containsKey(res.Resource__c)) {
                 reservationMap.put(res.Resource__c, new List<createReservationHelper.ReservationRange>());
             }
-            reservationMap.get(res.Resource__c).add(new createReservationHelper.ReservationRange(res.Start_time__c, res.End_time__c));
+            reservationMap.get(res.Resource__c).add(new createReservationHelper.ReservationRange(res.Start_date__c, res.End_date__c));
         }
         return reservationMap;
     }

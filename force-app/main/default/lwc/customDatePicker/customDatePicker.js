@@ -23,9 +23,19 @@ export default class CustomDatePicker extends LightningElement {
     currentDay;
     rangeStart;
     rangeEnd;
-    @api disabledDates;
+    _disabledDates;
 
     weeks = [];
+
+    @api
+    set disabledDates(dates) {
+        this._disabledDates = dates;
+        this.refreshCalendar();
+    }
+
+    get disabledDates() {
+        return this._disabledDates;
+    }
 
     connectedCallback() {
         this.buildWeeks();
@@ -65,7 +75,6 @@ export default class CustomDatePicker extends LightningElement {
     clearTodayMarker() {
         this.template.querySelectorAll(".slds-is-today").forEach((cell) => {
             cell.classList.remove("slds-is-today");
-            cell.removeAttribute("aria-current");
         });
     }
 
@@ -78,7 +87,6 @@ export default class CustomDatePicker extends LightningElement {
 
         if (todayCell) {
             todayCell.classList.add("slds-is-today");
-            todayCell.setAttribute("aria-current", "date");
         }
     }
 
@@ -136,7 +144,6 @@ export default class CustomDatePicker extends LightningElement {
     clearRangeStyles() {
         this.template.querySelectorAll("td").forEach((cell) => {
             cell.classList.remove("slds-is-selected", "slds-is-selected-multi");
-            cell.setAttribute("aria-selected", "false");
         });
     }
 
@@ -153,13 +160,11 @@ export default class CustomDatePicker extends LightningElement {
 
             if (this.rangeStart && !this.rangeEnd && cellDate.getTime() === this.rangeStart.getTime()) {
                 cell.classList.add("slds-is-selected");
-                cell.setAttribute("aria-selected", "true");
             }
 
             if (this.rangeStart && this.rangeEnd) {
                 if (cellDate >= this.rangeStart && cellDate <= this.rangeEnd) {
                     cell.classList.add("slds-is-selected");
-                    cell.setAttribute("aria-selected", "true");
 
                     if (cellDate.getTime() === this.rangeStart.getTime() || cellDate.getTime() === this.rangeEnd.getTime()) {
                         cell.classList.add("slds-is-selected-multi");
@@ -244,11 +249,21 @@ export default class CustomDatePicker extends LightningElement {
         this.dispatchEvent(
             new CustomEvent("change", {
                 detail: {
-                    startDate: this.rangeStart ? this.rangeStart.toISOString() : null,
-                    endDate: this.rangeEnd ? this.rangeEnd.toISOString() : null
+                    startDate: this.formatDateISO(this.rangeStart),
+                    endDate: this.formatDateISO(this.rangeEnd)
                 }
             })
         );
+    }
+
+    formatDateISO(date) {
+        if (!date) return null;
+
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+
+        return `${year}-${month}-${day}`;
     }
 
     get dateTimePickerClass() {
