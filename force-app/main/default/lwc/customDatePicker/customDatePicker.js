@@ -23,9 +23,19 @@ export default class CustomDatePicker extends LightningElement {
     currentDay;
     rangeStart;
     rangeEnd;
-    @api disabledDates;
+    _disabledDates;
 
     weeks = [];
+
+    @api
+    set disabledDates(dates) {
+        this._disabledDates = dates;
+        this.refreshCalendar();
+    }
+
+    get disabledDates() {
+        return this._disabledDates;
+    }
 
     connectedCallback() {
         this.buildWeeks();

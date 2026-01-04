@@ -20,7 +20,7 @@ public with sharing class createReservationController {
     public static List<createReservationHelper.Option> getResources() {
         try {
             List<createReservationHelper.Option> options = new List<createReservationHelper.Option>();
-            for (Resource__c res : [SELECT Id, Name FROM Resource__c WHERE Status__c = 'Free']) {
+            for (Resource__c res : [SELECT Id, Name FROM Resource__c ORDER BY Name ASC]) {
                 options.add(new createReservationHelper.Option(res.Name, res.Id));
             }
             return options;
@@ -34,6 +34,28 @@ public with sharing class createReservationController {
         } catch (Exception e) {
             System.debug(LoggingLevel.ERROR, 'Error during retrieval of resources: ' + e.getMessage());
             throw new AuraHandledException('Error retrieving resources: ' + e.getMessage());
+        }
+    }
+
+    @AuraEnabled(cacheable=false)
+    public static List<Date> getBookedDates(Id resourceId) {
+        try {
+            List<Date> bookedDates = new List<Date>();
+            for (Reservation__c res : [
+                SELECT Start_date__c, End_date__c
+                FROM Reservation__c
+                WHERE Resource__c = :resourceId AND End_date__c >= TODAY
+            ]) {
+                Date currentDate = res.Start_date__c;
+                while (currentDate <= res.End_date__c) {
+                    bookedDates.add(currentDate);
+                    currentDate = currentDate.addDays(1);
+                }
+            }
+            return bookedDates;
+        } catch (Exception e) {
+            System.debug(LoggingLevel.ERROR, 'Error during retrieval of booked dates: ' + e.getMessage());
+            throw new AuraHandledException('Error retrieving booked dates: ' + e.getMessage());
         }
     }
 

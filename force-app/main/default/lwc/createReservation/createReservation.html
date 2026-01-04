@@ -3,7 +3,6 @@
         <template if:true={message}>
             <div class={messageClass}>{message}</div>
         </template>
-        <c-custom-date-picker></c-custom-date-picker>
         <lightning-input
             label="Contact last name"
             required
@@ -28,8 +27,7 @@
                 value={resource}
                 onchange={handleChange}
             ></lightning-combobox>
-            <lightning-input type="datetime" required name="startTime" label="Start time" onchange={handleChange}></lightning-input>
-            <lightning-input type="datetime" required name="endTime" label="End time" onchange={handleChange}></lightning-input>
+            <c-custom-date-picker onchange={handleDateChange}></c-custom-date-picker>
             <lightning-button label="Create Reservation" variant="brand" onclick={handleSubmit}></lightning-button>
             <lightning-button label="Reset" variant="brand" onclick={handleReset}></lightning-button>
         </template>

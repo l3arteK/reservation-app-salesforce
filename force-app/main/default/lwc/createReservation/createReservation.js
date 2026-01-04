@@ -2,14 +2,15 @@ import { LightningElement, track, wire } from "lwc";
 import getContact from "@salesforce/apex/createReservationController.getContact";
 import getResources from "@salesforce/apex/createReservationController.getResources";
 import createReservation from "@salesforce/apex/createReservationController.createReservation";
+import getBookedDates from "@salesforce/apex/createReservationController.getBookedDates";
 
 export default class CreateReservation extends LightningElement {
     @track isSubmitting = false;
     contactId;
     lastName;
     email;
-    startTime;
-    endTime;
+    startDate;
+    endDate;
     message;
     messageVariant;
     resources;
@@ -28,17 +29,39 @@ export default class CreateReservation extends LightningElement {
         if (this.lastName && this.email) {
             getContact({ lastName: this.lastName, email: this.email })
                 .then((result) => {
-                    this.contactId = result;
-                    this.showBanner("Contact found.", "success");
+                    if (result) {
+                        this.contactId = result;
+                        this.showBanner("Contact found.", "success");
+                    } else {
+                        this.showBanner("No contact found with the provided details.", "error");
+                    }
                 })
                 .catch((error) => {
-                    this.showBanner("No contact found with the provided details.Error details: " + error, "error");
+                    this.showBanner("An error occurred. Error details: " + error, "error");
                 });
         }
     }
     handleChange(event) {
         const { name, value } = event.target;
         this[name] = value;
+        if (name === "resource") {
+            getBookedDates({ resourceId: value })
+                .then((dates) => {
+                    const datePicker = this.template.querySelector("c-custom-date-picker");
+                    if (datePicker) {
+                        datePicker.disabledDates = dates;
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error retrieving booked dates: ", error);
+                });
+        }
+    }
+
+    handleDateChange(event) {
+        const { startDate, endDate } = event.detail;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     handleSubmit() {
@@ -48,8 +71,8 @@ export default class CreateReservation extends LightningElement {
             createReservation({
                 contactId: this.contactId,
                 resourceId: this.resource,
-                startDate: this.startTime,
-                endDate: this.endTime
+                startDate: this.startDate,
+                endDate: this.endDate
             })
                 .then(() => {
                     this.resetForm();
@@ -86,16 +109,6 @@ export default class CreateReservation extends LightningElement {
 
     validateForm() {
         let isValid = true;
-
-        const start = this.template.querySelector('[name="startTime"]');
-        const end = this.template.querySelector('[name="endTime"]');
-
-        if (start?.value && end?.value && end.value <= start.value) {
-            end.setCustomValidity("End time must be after start time");
-            isValid = false;
-        } else {
-            end?.setCustomValidity("");
-        }
 
         this.template.querySelectorAll("lightning-input, lightning-combobox").forEach((el) => {
             if (!el.checkValidity()) {
