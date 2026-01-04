@@ -98,6 +98,7 @@ export default class CreateReservation extends LightningElement {
         this.template.querySelectorAll("lightning-input, lightning-combobox").forEach((el) => {
             el.value = null;
         });
+        this.template.querySelector("c-custom-date-picker").reset();
         this.showBanner(null, null);
     }
 

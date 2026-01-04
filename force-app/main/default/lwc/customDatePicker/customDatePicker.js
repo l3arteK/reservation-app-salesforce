@@ -50,6 +50,12 @@ export default class CustomDatePicker extends LightningElement {
         this.reportValidityEndDate();
     }
 
+    @api reset() {
+        this.rangeStart = null;
+        this.rangeEnd = null;
+        this.refreshCalendar();
+    }
+
     connectedCallback() {
         this.buildWeeks();
         document.addEventListener("click", this.handleOutsideClick);
