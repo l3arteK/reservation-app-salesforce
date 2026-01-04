@@ -110,7 +110,7 @@ export default class CreateReservation extends LightningElement {
     validateForm() {
         let isValid = true;
 
-        this.template.querySelectorAll("lightning-input, lightning-combobox").forEach((el) => {
+        this.template.querySelectorAll("lightning-input, lightning-combobox, c-custom-date-picker").forEach((el) => {
             if (!el.checkValidity()) {
                 el.reportValidity();
                 isValid = false;
