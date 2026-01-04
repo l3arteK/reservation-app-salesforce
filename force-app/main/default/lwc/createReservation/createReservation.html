@@ -27,7 +27,7 @@
                 value={resource}
                 onchange={handleChange}
             ></lightning-combobox>
-            <c-custom-date-picker onchange={handleDateChange}></c-custom-date-picker>
+            <c-custom-date-picker onchange={handleDateChange} required></c-custom-date-picker>
             <lightning-button label="Create Reservation" variant="brand" onclick={handleSubmit}></lightning-button>
             <lightning-button label="Reset" variant="brand" onclick={handleReset}></lightning-button>
         </template>

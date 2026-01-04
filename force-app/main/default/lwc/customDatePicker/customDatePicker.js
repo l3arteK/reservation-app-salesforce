@@ -24,6 +24,7 @@ export default class CustomDatePicker extends LightningElement {
     rangeStart;
     rangeEnd;
     _disabledDates;
+    @api required = false;
 
     weeks = [];
 
@@ -37,6 +38,24 @@ export default class CustomDatePicker extends LightningElement {
         return this._disabledDates;
     }
 
+    @api checkValidity() {
+        if (this.required) {
+            return !!this.startDateValue && !!this.endDateValue;
+        }
+        return this.isValidRealDate(this.startDateValue) && this.isValidRealDate(this.endDateValue);
+    }
+
+    @api reportValidity() {
+        this.reportValidityStartDate();
+        this.reportValidityEndDate();
+    }
+
+    @api reset() {
+        this.rangeStart = null;
+        this.rangeEnd = null;
+        this.refreshCalendar();
+    }
+
     connectedCallback() {
         this.buildWeeks();
         document.addEventListener("click", this.handleOutsideClick);
@@ -46,17 +65,60 @@ export default class CustomDatePicker extends LightningElement {
         document.removeEventListener("click", this.handleOutsideClick);
     }
 
-    handleOutsideClick = (event) => {
-        if (!this.template.contains(event.target)) {
-            this.isDatePickerOpen = false;
-        }
-    };
-
     renderedCallback() {
         if (this.isDatePickerOpen) {
             this.markToday();
             this.applyRangeStyles();
         }
+    }
+
+    reportValidityStartDate() {
+        this.validateDateInput("startDateValue");
+    }
+
+    reportValidityEndDate() {
+        this.validateDateInput("endDateValue");
+    }
+
+    validateDateInput(fieldName) {
+        const value = this[fieldName];
+        const input = this.template.querySelector(`input[name="${fieldName}"]`);
+        let error = "";
+
+        if (!value) {
+            error = "Completing this field is required.";
+        } else if (!this.isValidRealDate(value)) {
+            error = "Your entry does not match the allowed format: 01/06/2026";
+        }
+
+        input.setCustomValidity(error);
+        input.reportValidity();
+
+        if (!error) {
+            const date = new Date(value);
+
+            if (fieldName === "startDateValue") {
+                this.rangeStart = date;
+            } else {
+                this.rangeEnd = date;
+            }
+
+            this.applyRangeStyles();
+            this.emitChange();
+        }
+    }
+
+    isValidRealDate(value) {
+        const match = value.match(/^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/(\d{4})$/);
+
+        if (!match) return false;
+
+        const month = Number(match[1]);
+        const day = Number(match[2]);
+        const year = Number(match[3]);
+
+        const date = new Date(year, month - 1, day);
+        return date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day;
     }
 
     isDateDisabled(date) {
@@ -150,7 +212,7 @@ export default class CustomDatePicker extends LightningElement {
     applyRangeStyles() {
         this.clearRangeStyles();
 
-        if (!this.rangeStart) return;
+        if (!this.rangeStart || !(this.rangeStart instanceof Date)) return;
 
         const cells = this.template.querySelectorAll("td:not(.slds-disabled-text)");
 
@@ -162,7 +224,7 @@ export default class CustomDatePicker extends LightningElement {
                 cell.classList.add("slds-is-selected");
             }
 
-            if (this.rangeStart && this.rangeEnd) {
+            if (this.rangeStart && this.rangeEnd instanceof Date) {
                 if (cellDate >= this.rangeStart && cellDate <= this.rangeEnd) {
                     cell.classList.add("slds-is-selected");
 
@@ -181,11 +243,30 @@ export default class CustomDatePicker extends LightningElement {
 
     formatDate(date) {
         if (!date) return "";
+        if (!(date instanceof Date)) return date;
         const mm = String(date.getMonth() + 1).padStart(2, "0");
         const dd = String(date.getDate()).padStart(2, "0");
         const yyyy = date.getFullYear();
         return `${mm}/${dd}/${yyyy}`;
     }
+
+    handleInputChange(event) {
+        const { name, value } = event.target;
+        this[name] = value;
+
+        if (name === "startDateValue") {
+            this.reportValidityStartDate();
+        }
+        if (name === "endDateValue") {
+            this.reportValidityEndDate();
+        }
+    }
+
+    handleOutsideClick = (event) => {
+        if (!this.template.contains(event.target)) {
+            this.isDatePickerOpen = false;
+        }
+    };
 
     handleYearChange(event) {
         event.stopPropagation();
@@ -284,6 +365,14 @@ export default class CustomDatePicker extends LightningElement {
             years.push({ label: i, value: i });
         }
         return years;
+    }
+
+    set startDateValue(value) {
+        this.rangeStart = value;
+    }
+
+    set endDateValue(value) {
+        this.rangeEnd = value;
     }
 
     get startDateValue() {
