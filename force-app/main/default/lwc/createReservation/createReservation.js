@@ -1,11 +1,9 @@
-import { LightningElement, track, wire } from "lwc";
-import getContact from "@salesforce/apex/createReservationController.getContact";
+import { LightningElement, wire } from "lwc";
 import getResources from "@salesforce/apex/createReservationController.getResources";
 import createReservation from "@salesforce/apex/createReservationController.createReservation";
 import getBookedDates from "@salesforce/apex/createReservationController.getBookedDates";
 
 export default class CreateReservation extends LightningElement {
-    @track isSubmitting = false;
     contactId;
     lastName;
     email;
@@ -15,6 +13,7 @@ export default class CreateReservation extends LightningElement {
     messageVariant;
     resources;
     resource;
+    isSubmitting = false;
 
     @wire(getResources)
     wireResources({ error, data }) {
@@ -25,22 +24,6 @@ export default class CreateReservation extends LightningElement {
         }
     }
 
-    handleSearchContact() {
-        if (this.lastName && this.email) {
-            getContact({ lastName: this.lastName, email: this.email })
-                .then((result) => {
-                    if (result) {
-                        this.contactId = result;
-                        this.showBanner("Contact found.", "success");
-                    } else {
-                        this.showBanner("No contact found with the provided details.", "error");
-                    }
-                })
-                .catch((error) => {
-                    this.showBanner("An error occurred. Error details: " + error, "error");
-                });
-        }
-    }
     handleChange(event) {
         const { name, value } = event.target;
         this[name] = value;
@@ -68,8 +51,10 @@ export default class CreateReservation extends LightningElement {
         if (!this.validateForm()) {
             this.showBanner("Please correct the errors on the form.", "error");
         } else {
+            this.isSubmitting = true;
             createReservation({
-                contactId: this.contactId,
+                lastName: this.lastName,
+                email: this.email,
                 resourceId: this.resource,
                 startDate: this.startDate,
                 endDate: this.endDate
@@ -80,6 +65,9 @@ export default class CreateReservation extends LightningElement {
                 })
                 .catch((error) => {
                     this.showBanner(error.body.message, "error");
+                })
+                .finally(() => {
+                    this.isSubmitting = false;
                 });
         }
     }

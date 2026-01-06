@@ -3,33 +3,63 @@
         <template if:true={message}>
             <div class={messageClass}>{message}</div>
         </template>
-        <lightning-input
-            label="Contact last name"
-            required
-            name="lastName"
-            onchange={handleChange}
-            disabled={searchContactDisabled}
-        ></lightning-input>
-        <lightning-input
-            label="Contact email"
-            required
-            name="email"
-            onchange={handleChange}
-            disabled={searchContactDisabled}
-        ></lightning-input>
-        <lightning-button label="Search Contact" onclick={handleSearchContact}></lightning-button>
-        <template if:true={contactId}>
-            <lightning-combobox
+
+        <div class="section">
+            <h3 class="section-title">Your details</h3>
+
+            <lightning-input
+                label="Last name"
+                name="lastName"
                 required
+                onchange={handleChange}
+                disabled={searchContactDisabled}
+            ></lightning-input>
+
+            <lightning-input
+                label="Email address"
+                name="email"
+                type="email"
+                required
+                onchange={handleChange}
+                disabled={searchContactDisabled}
+                message-when-bad-input="Enter a valid email address"
+            ></lightning-input>
+        </div>
+
+        <div class="section slds-m-top_large">
+            <h3 class="section-title">Reservation details</h3>
+
+            <lightning-combobox
                 label="Resource"
                 name="resource"
                 options={resources}
                 value={resource}
+                required
                 onchange={handleChange}
             ></lightning-combobox>
-            <c-custom-date-picker onchange={handleDateChange} required></c-custom-date-picker>
-            <lightning-button label="Create Reservation" variant="brand" onclick={handleSubmit}></lightning-button>
-            <lightning-button label="Reset" variant="brand" onclick={handleReset}></lightning-button>
-        </template>
+
+            <c-custom-date-picker required onchange={handleDateChange}></c-custom-date-picker>
+
+            <div class="actions slds-m-top_medium">
+                <lightning-button
+                    label="Create reservation"
+                    variant="brand"
+                    onclick={handleSubmit}
+                    disabled={isSubmitting}
+                ></lightning-button>
+
+                <lightning-button
+                    label="Start over"
+                    variant="neutral"
+                    onclick={handleReset}
+                    disabled={isSubmitting}
+                    class="slds-m-left_small"
+                ></lightning-button>
+
+                <template if:true={isSubmitting}>
+                    <lightning-spinner size="small"></lightning-spinner>
+                </template>
+            </div>
+        </div>
     </lightning-card>
 </template>
