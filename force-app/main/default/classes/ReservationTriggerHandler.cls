@@ -32,26 +32,4 @@ public with sharing class ReservationTriggerHandler {
                 ')';
         }
     }
-
-    public static void handleAfterInsert(List<Reservation__c> newReservations) {
-        Set<Id> resourceIds = new Set<Id>();
-
-        for (Reservation__c res : newReservations) {
-            if (res.Resource__c != null) {
-                resourceIds.add(res.Resource__c);
-            }
-        }
-
-        List<Resource__c> resources = [
-            SELECT Id, Status__c
-            FROM Resource__c
-            WHERE Id IN :resourceIds
-        ];
-
-        for (Resource__c r : resources) {
-            r.Status__c = 'Booked';
-        }
-
-        update resources;
-    }
 }
