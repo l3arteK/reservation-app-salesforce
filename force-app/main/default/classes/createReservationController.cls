@@ -1,4 +1,4 @@
-public with sharing class createReservationController {
+public without sharing class createReservationController {
     public static Id getContact(String lastName, String email) {
         try {
             return [SELECT Id, lastName, Email FROM Contact WHERE Email = :email AND lastName = :lastName LIMIT 1].Id;
