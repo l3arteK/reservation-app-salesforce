@@ -67,15 +67,4 @@ public with sharing class createReservationController {
             throw new AuraHandledException('An error occurred during creation of reservation: ' + e.getMessage());
         }
     }
-
-    public static Map<Id, List<createReservationHelper.ReservationRange>> getReservationRanges() {
-        Map<Id, List<createReservationHelper.ReservationRange>> reservationMap = new Map<Id, List<createReservationHelper.ReservationRange>>();
-        for (Reservation__c res : [SELECT Id, Resource__c, Start_date__c, End_date__c FROM Reservation__c]) {
-            if (!reservationMap.containsKey(res.Resource__c)) {
-                reservationMap.put(res.Resource__c, new List<createReservationHelper.ReservationRange>());
-            }
-            reservationMap.get(res.Resource__c).add(new createReservationHelper.ReservationRange(res.Start_date__c, res.End_date__c));
-        }
-        return reservationMap;
-    }
 }
