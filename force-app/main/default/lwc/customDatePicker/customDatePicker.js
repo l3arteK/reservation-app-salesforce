@@ -16,7 +16,7 @@ const MONTH_NAMES = [
 ];
 
 export default class CustomDatePicker extends LightningElement {
-    isDatePickerOpen = false;
+    _isDatePickerOpen = false;
 
     currentMonth = today.getMonth();
     currentYear = today.getFullYear();
@@ -25,8 +25,13 @@ export default class CustomDatePicker extends LightningElement {
     rangeEnd;
     _disabledDates;
     @api required = false;
+    @api preview = false;
 
     weeks = [];
+
+    set isDatePickerOpen(value) {
+        this._isDatePickerOpen = value;
+    }
 
     @api
     set disabledDates(dates) {
@@ -381,5 +386,13 @@ export default class CustomDatePicker extends LightningElement {
 
     get endDateValue() {
         return this.formatDate(this.rangeEnd);
+    }
+
+    get isDatePickerOpen() {
+        return this.preview ? true : this._isDatePickerOpen;
+    }
+
+    get isNotPreview() {
+        return !this.preview;
     }
 }
