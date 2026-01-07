@@ -1,4 +1,4 @@
-public with sharing class ReservationTriggerHandler {
+public without sharing class ReservationTriggerHandler {
     public static void handleBeforeInsert(List<Reservation__c> newReservations) {
         Set<Id> contactIds = new Set<Id>();
         Set<Id> resourceIds = new Set<Id>();
