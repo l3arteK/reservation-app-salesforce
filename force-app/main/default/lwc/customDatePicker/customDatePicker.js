@@ -16,7 +16,7 @@ const MONTH_NAMES = [
 ];
 
 export default class CustomDatePicker extends LightningElement {
-    isDatePickerOpen = false;
+    _isDatePickerOpen = false;
 
     currentMonth = today.getMonth();
     currentYear = today.getFullYear();
@@ -25,8 +25,13 @@ export default class CustomDatePicker extends LightningElement {
     rangeEnd;
     _disabledDates;
     @api required = false;
+    @api preview = false;
 
     weeks = [];
+
+    set isDatePickerOpen(value) {
+        this._isDatePickerOpen = value;
+    }
 
     @api
     set disabledDates(dates) {
@@ -145,10 +150,15 @@ export default class CustomDatePicker extends LightningElement {
         if (today.getMonth() !== this.currentMonth || today.getFullYear() !== this.currentYear) {
             return;
         }
-        const todayCell = this.template.querySelector(`td[data-day="${today.getDate()}"]:not(.slds-disabled-text)`);
+
+        const todayCell = this.template.querySelector(`td[data-day="${today.getDate()}"]`);
 
         if (todayCell) {
             todayCell.classList.add("slds-is-today");
+
+            if (todayCell.classList.contains("slds-disabled-text")) {
+                todayCell.classList.add("day-booked");
+            }
         }
     }
 
@@ -181,7 +191,7 @@ export default class CustomDatePicker extends LightningElement {
             const isDisabled = this.isDateDisabled(date);
             days.push({
                 day: i,
-                class: isDisabled ? "slds-disabled-text" : ""
+                class: isDisabled ? "day-booked" : ""
             });
         }
 
@@ -306,7 +316,7 @@ export default class CustomDatePicker extends LightningElement {
 
         const day = Number(event.currentTarget.dataset.day);
 
-        if (event.currentTarget.classList.contains("slds-disabled-text")) {
+        if (this.preview || event.currentTarget.classList.contains("slds-disabled-text")) {
             return;
         }
 
@@ -381,5 +391,17 @@ export default class CustomDatePicker extends LightningElement {
 
     get endDateValue() {
         return this.formatDate(this.rangeEnd);
+    }
+
+    get isDatePickerOpen() {
+        return this.preview ? true : this._isDatePickerOpen;
+    }
+
+    get isNotPreview() {
+        return !this.preview;
+    }
+
+    get legendMessage() {
+        return this.preview ? "Booked Dates" : "Start and End Date";
     }
 }

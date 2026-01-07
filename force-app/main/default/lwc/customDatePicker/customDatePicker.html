@@ -1,90 +1,90 @@
 <template>
     <div class="slds-form slds-form_compound">
         <fieldset class="slds-form-element">
-            <legend class="slds-form-element__label slds-form-element__legend">Start and End Date</legend>
+            <legend class="slds-form-element__label slds-form-element__legend">{legendMessage}</legend>
             <div class="slds-form-element__control">
                 <div class="slds-form-element__group">
                     <div class="slds-form-element__row">
-                        <div class="slds-form-element slds-dropdown-trigger slds-dropdown-trigger_click">
-                            <label class="slds-form-element__label" for="date-input-id-01-end_selected">Start Date</label>
-                            <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
-                                <input
-                                    type="text"
-                                    id="date-input-id-01-end_selected"
-                                    placeholder=" "
-                                    class="slds-input"
-                                    value={startDateValue}
-                                    onclick={toggleDatePicker}
-                                    onchange={handleInputChange}
-                                    name="startDateValue"
-                                    required={required}
-                                />
-                                <button
-                                    class="slds-button slds-button_icon slds-input__icon slds-input__icon_right"
-                                    onclick={toggleDatePicker}
-                                    title="Select a date"
-                                >
-                                    <svg class="slds-button__icon">
-                                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#event"></use>
-                                    </svg>
-                                    <span class="slds-assistive-text">Select a date</span>
-                                </button>
+                        <template lwc:if={isNotPreview}>
+                            <div class="slds-form-element slds-dropdown-trigger slds-dropdown-trigger_click">
+                                <label class="slds-form-element__label" for="date-input-id-01-end_selected">Start Date</label>
+                                <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                    <input
+                                        type="text"
+                                        id="date-input-id-01-end_selected"
+                                        placeholder=" "
+                                        class="slds-input"
+                                        value={startDateValue}
+                                        onclick={toggleDatePicker}
+                                        onchange={handleInputChange}
+                                        name="startDateValue"
+                                        required={required}
+                                    />
+                                    <button
+                                        class="slds-button slds-button_icon slds-input__icon slds-input__icon_right"
+                                        onclick={toggleDatePicker}
+                                        title="Select a date"
+                                    >
+                                        <lightning-icon
+                                            icon-name="utility:event"
+                                            size="x-small"
+                                            alternative-text="Select a date"
+                                        ></lightning-icon>
+                                    </button>
+                                </div>
+                                <div class="slds-form-element__help slds-assistive-text">Format: 12/31/2024</div>
                             </div>
-                            <div class="slds-form-element__help slds-assistive-text">Format: 12/31/2024</div>
-                        </div>
+                        </template>
                         <div class={dateTimePickerClass}>
-                            <label class="slds-form-element__label" for="date-input-id-02-end_selected">End Date</label>
-                            <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
-                                <input
-                                    type="text"
-                                    id="date-input-id-02-end_selected"
-                                    placeholder=" "
-                                    class="slds-input"
-                                    value={endDateValue}
-                                    onclick={toggleDatePicker}
-                                    onchange={handleInputChange}
-                                    name="endDateValue"
-                                    required={required}
-                                />
-                                <button
-                                    class="slds-button slds-button_icon slds-input__icon slds-input__icon_right"
-                                    onclick={toggleDatePicker}
-                                    title="Select a date"
-                                >
-                                    <svg class="slds-button__icon">
-                                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#event"></use>
-                                    </svg>
-                                    <span class="slds-assistive-text">Select a date</span>
-                                </button>
-                            </div>
-                            <div class="slds-form-element__help slds-assistive-text">Format: 12/31/2024</div>
+                            <template lwc:if={isNotPreview}>
+                                <label class="slds-form-element__label" for="date-input-id-02-end_selected">End Date</label>
+
+                                <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                    <input
+                                        type="text"
+                                        id="date-input-id-02-end_selected"
+                                        placeholder=" "
+                                        class="slds-input"
+                                        value={endDateValue}
+                                        onclick={toggleDatePicker}
+                                        onchange={handleInputChange}
+                                        name="endDateValue"
+                                        required={required}
+                                    />
+                                    <button
+                                        class="slds-button slds-button_icon slds-input__icon slds-input__icon_right"
+                                        onclick={toggleDatePicker}
+                                        title="Select a date"
+                                    >
+                                        <lightning-icon
+                                            icon-name="utility:event"
+                                            size="x-small"
+                                            alternative-text="Select a date"
+                                        ></lightning-icon>
+                                        <span class="slds-assistive-text">Select a date</span>
+                                    </button>
+                                </div>
+                                <div class="slds-form-element__help slds-assistive-text">Format: 12/31/2024</div>
+                            </template>
                             <div class="slds-datepicker slds-dropdown slds-dropdown_left" role="dialog">
                                 <div class="slds-datepicker__filter slds-grid">
                                     <div class="slds-datepicker__filter_month slds-grid slds-grid_align-spread slds-grow">
                                         <div class="slds-align-middle">
-                                            <button
-                                                class="slds-button slds-button_icon slds-button_icon-container"
+                                            <lightning-button-icon
+                                                icon-name="utility:chevronleft"
+                                                alternative-text="Previous month"
                                                 onclick={handlePrevMonth}
-                                                title="Previous Month"
-                                            >
-                                                <svg class="slds-button__icon">
-                                                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
-                                                </svg>
-                                                <span class="slds-assistive-text">Previous Month</span>
-                                            </button>
+                                                variant="bare"
+                                            ></lightning-button-icon>
                                         </div>
                                         <h2 class="slds-align-middle" id="rangeWeekSame_end-month">{currentMonthLabel}</h2>
                                         <div class="slds-align-middle">
-                                            <button
-                                                class="slds-button slds-button_icon slds-button_icon-container"
+                                            <lightning-button-icon
+                                                icon-name="utility:chevronright"
+                                                alternative-text="Next month"
                                                 onclick={handleNextMonth}
-                                                title="Next Month"
-                                            >
-                                                <svg class="slds-button__icon">
-                                                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#right"></use>
-                                                </svg>
-                                                <span class="slds-assistive-text">Next Month</span>
-                                            </button>
+                                                variant="bare"
+                                            ></lightning-button-icon>
                                         </div>
                                     </div>
                                     <div class="slds-shrink-none">
