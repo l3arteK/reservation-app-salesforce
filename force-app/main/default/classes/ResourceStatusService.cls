@@ -1,19 +1,19 @@
 public class ResourceStatusService {
-    public static void updateResourceStatuses(List<Resource__c> resources) {
+    public static void updateResourceStatuses(List<Resource__c> scope) {
         Date today = Date.today();
-
         Set<Id> resourceIds = new Set<Id>();
         for (Resource__c r : scope) {
             resourceIds.add(r.Id);
         }
 
-        Map<Id, Reservation__c> activeReservationsByResource = new Map<Id, Reservation__c>(
-            [
-                SELECT Resource__c
-                FROM Reservation__c
-                WHERE Resource__c IN :resourceIds AND Start_Date__c <= :Date.today() AND End_Date__c >= :Date.today()
-            ]
-        );
+        Map<Id, Reservation__c> activeReservationsByResource = new Map<Id, Reservation__c>();
+        for (Reservation__c res : [
+            SELECT Resource__c
+            FROM Reservation__c
+            WHERE Resource__c IN :resourceIds AND Start_Date__c <= :Date.today() AND End_Date__c >= :Date.today()
+        ]) {
+            activeReservationsByResource.put(res.Resource__c, res);
+        }
 
         List<Resource__c> bookedResources = new List<Resource__c>();
         List<Resource__c> inUseResources = new List<Resource__c>();
