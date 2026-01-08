@@ -1,4 +1,4 @@
-public inherited sharing class reservationHelper {
+public inherited sharing class ReservationHelper {
     public static List<Date> getBookedDates(Id resourceId) {
         List<Date> bookedDates = new List<Date>();
         for (Reservation__c res : [

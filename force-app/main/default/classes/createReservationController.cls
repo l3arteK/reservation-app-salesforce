@@ -1,4 +1,4 @@
-public without sharing class createReservationController {
+public without sharing class CreateReservationController {
     public static Id getContact(String lastName, String email) {
         try {
             return [SELECT Id, lastName, Email FROM Contact WHERE Email = :email AND lastName = :lastName LIMIT 1].Id;
@@ -16,11 +16,11 @@ public without sharing class createReservationController {
     }
 
     @AuraEnabled(cacheable=true)
-    public static List<createReservationHelper.Option> getResources() {
+    public static List<CreateReservationHelper.Option> getResources() {
         try {
-            List<createReservationHelper.Option> options = new List<createReservationHelper.Option>();
+            List<CreateReservationHelper.Option> options = new List<CreateReservationHelper.Option>();
             for (Resource__c res : [SELECT Id, Name FROM Resource__c ORDER BY Name ASC]) {
-                options.add(new createReservationHelper.Option(res.Name, res.Id));
+                options.add(new CreateReservationHelper.Option(res.Name, res.Id));
             }
             return options;
         } catch (Exception e) {
@@ -32,7 +32,7 @@ public without sharing class createReservationController {
     @AuraEnabled(cacheable=false)
     public static List<Date> getBookedDates(Id resourceId) {
         try {
-            return reservationHelper.getBookedDates(resourceId);
+            return ReservationHelper.getBookedDates(resourceId);
         } catch (Exception e) {
             System.debug(LoggingLevel.ERROR, 'Error during retrieval of booked dates: ' + e.getMessage());
             throw new AuraHandledException('Error retrieving booked dates: ' + e.getMessage());

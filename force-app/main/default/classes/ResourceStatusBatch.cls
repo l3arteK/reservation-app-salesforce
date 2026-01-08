@@ -4,7 +4,7 @@ public with sharing class ResourceStatusBatch implements Database.Batchable<sObj
     }
 
     public void execute(Database.BatchableContext bc, List<Resource__c> scope) {
-        ResourceStatusService.updateStatuses(scope);
+        ResourceStatusService.updateResourceStatuses(scope);
     }
 
     public void finish(Database.BatchableContext bc) {

@@ -1,4 +1,4 @@
-public with sharing class createReservationHelper {
+public with sharing class CreateReservationHelper {
     public class Option {
         @AuraEnabled
         public String label { get; set; }

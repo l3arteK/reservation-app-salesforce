@@ -1,7 +1,7 @@
 import { LightningElement, wire } from "lwc";
-import getResources from "@salesforce/apex/createReservationController.getResources";
-import createReservation from "@salesforce/apex/createReservationController.createReservation";
-import getBookedDates from "@salesforce/apex/createReservationController.getBookedDates";
+import getResources from "@salesforce/apex/CreateReservationController.getResources";
+import createReservation from "@salesforce/apex/CreateReservationController.createReservation";
+import getBookedDates from "@salesforce/apex/CreateReservationController.getBookedDates";
 
 export default class CreateReservation extends LightningElement {
     contactId;
