@@ -1,53 +1,45 @@
 public class ResourceStatusService {
-    public static void updateResourceStatuses(List<Resource__c> resources) {
+    public static void updateResourceStatuses() {
         Date today = Date.today();
 
-        Set<Id> resourceIds = new Set<Id>();
-        for (Resource__c r : scope) {
-            resourceIds.add(r.Id);
-        }
+        List<Resource__c> resourcesToUpdate = new List<Resource__c>();
 
-        Map<Id, Reservation__c> activeReservationsByResource = new Map<Id, Reservation__c>(
-            [
-                SELECT Resource__c
-                FROM Reservation__c
-                WHERE Resource__c IN :resourceIds AND Start_Date__c <= :Date.today() AND End_Date__c >= :Date.today()
-            ]
-        );
+        List<Resource__c> bookedResources = [
+            SELECT Id, Status__c
+            FROM Resource__c
+            WHERE
+                Status__c = 'Free'
+                AND Id IN (
+                    SELECT Resource__c
+                    FROM Reservation__c
+                    WHERE Start_Date__c <= :today AND End_Date__c >= :today
+                )
+        ];
 
-        List<Resource__c> bookedResources = new List<Resource__c>();
-        List<Resource__c> inUseResources = new List<Resource__c>();
-
-        for (Resource__c r : scope) {
-            Boolean hasReservation = activeReservationsByResource.containsKey(r.Id);
-
-            if (r.Status__c == 'Free' && hasReservation) {
-                bookedResources.add(r);
-            }
-
-            if (r.Status__c == 'In use' && !hasReservation) {
-                inUseResources.add(r);
-            }
-        }
-
-        process(bookedResources, inUseResources);
-    }
-
-    public static void process(List<Resource__c> booked, List<Resource__c> inUse) {
-        List<Resource__c> toUpdate = new List<Resource__c>();
-
-        for (Resource__c r : booked) {
+        for (Resource__c r : bookedResources) {
             r.Status__c = 'In use';
-            toUpdate.add(r);
         }
+        resourcesToUpdate.addAll(bookedResources);
 
-        for (Resource__c r : inUse) {
+        List<Resource__c> inUseResources = [
+            SELECT Id, Status__c, Name
+            FROM Resource__c
+            WHERE
+                Status__c = 'In use'
+                AND Id NOT IN (
+                    SELECT Resource__c
+                    FROM Reservation__c
+                    WHERE Start_Date__c <= :today AND End_Date__c >= :today
+                )
+        ];
+
+        for (Resource__c r : inUseResources) {
             r.Status__c = 'Free';
-            toUpdate.add(r);
         }
+        resourcesToUpdate.addAll(inUseResources);
 
-        if (!toUpdate.isEmpty()) {
-            update toUpdate;
+        if (!resourcesToUpdate.isEmpty()) {
+            update resourcesToUpdate;
         }
     }
 }
