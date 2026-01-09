@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Status__c</fullName>
     <label>Status</label>
-    <required>true</required>
+    <required>false</required>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
@@ -16,18 +16,13 @@
             </value>
             <value>
                 <fullName>Free</fullName>
-                <default>false</default>
+                <default>true</default>
                 <label>Free</label>
             </value>
             <value>
                 <fullName>In use</fullName>
                 <default>false</default>
                 <label>In use</label>
-            </value>
-            <value>
-                <fullName>Booked</fullName>
-                <default>false</default>
-                <label>Booked</label>
             </value>
         </valueSetDefinition>
     </valueSet>
