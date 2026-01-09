@@ -2,15 +2,16 @@
 private class CreateReservationControllerTest {
     @TestSetup
     static void setupData() {
-        insert new List<Resource__c>{
-            new Resource__c(Name = 'A Resource', Type__c = 'Room'),
-            new Resource__c(Name = 'B Resource', Type__c = 'Room'),
-            new Resource__c(Name = 'Room 1', Type__c = 'Room'),
-            new Resource__c(Name = 'Room 2', Type__c = 'Room'),
-            new Resource__c(Name = 'Room 3', Type__c = 'Room')
-        };
+        System.runAs(TestHelper.createAdminUser()) {
+            insert new List<Resource__c>{
+                new Resource__c(Name = 'A Resource', Type__c = 'Room'),
+                new Resource__c(Name = 'B Resource', Type__c = 'Room'),
+                new Resource__c(Name = 'Room 1', Type__c = 'Room'),
+                new Resource__c(Name = 'Room 2', Type__c = 'Room'),
+                new Resource__c(Name = 'Room 3', Type__c = 'Room')
+            };
+        }
 
-        TestHelper.createAdminUser();
     }
 
     @IsTest

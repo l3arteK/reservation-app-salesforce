@@ -20,17 +20,15 @@ public inherited sharing class TestHelper {
             Username = 'admin' + System.currentTimeMillis() + '@test.pl'
         );
 
-        System.runAs(new User(Id = UserInfo.getUserId())) {
-            insert u;
+        insert u;
 
-            PermissionSet ps = [
-                SELECT Id
-                FROM PermissionSet
-                WHERE Name = 'RM_Administrator'
-                LIMIT 1
-            ];
-            insert new PermissionSetAssignment(AssigneeId = u.Id, PermissionSetId = ps.Id);
-        }
+        PermissionSet ps = [
+            SELECT Id
+            FROM PermissionSet
+            WHERE Name = 'RM_Administrator'
+            LIMIT 1
+        ];
+        insert new PermissionSetAssignment(AssigneeId = u.Id, PermissionSetId = ps.Id);
 
         return u;
     }
