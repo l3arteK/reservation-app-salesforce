@@ -49,7 +49,11 @@ public inherited sharing class TestHelper {
     }
 
     public static Resource__c createResource(String name) {
-        Resource__c res = new Resource__c(Name = name);
+        return createResource(name, 'Room');
+    }
+
+    public static Resource__c createResource(String name, String type) {
+        Resource__c res = new Resource__c(Name = name, Type__c = type);
         insert res;
         return res;
     }

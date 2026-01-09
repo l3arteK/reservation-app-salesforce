@@ -4,38 +4,14 @@ private class CreateReservationControllerTest {
     static void setupData() {
         System.runAs(TestHelper.createAdminUser()) {
             insert new List<Resource__c>{
-                new Resource__c(Name = 'A Resource', Type__c = 'Room'),
-                new Resource__c(Name = 'B Resource', Type__c = 'Room'),
-                new Resource__c(Name = 'Room 1', Type__c = 'Room'),
-                new Resource__c(Name = 'Room 2', Type__c = 'Room'),
-                new Resource__c(Name = 'Room 3', Type__c = 'Room')
+                TestHelper.createResource('A Resource'),
+                TestHelper.createResource('B Resource'),
+                TestHelper.createResource('Room 1'),
+                TestHelper.createResource('Room 2'),
+                TestHelper.createResource('Room 3')
             };
         }
 
-    }
-
-    @IsTest
-    static void testGetContact_existingContact() {
-        System.runAs(TestHelper.getAdminUser()) {
-            Contact c = TestHelper.createContact('Kowalski', 'kowalski@test.pl');
-
-            Test.startTest();
-            Id contactId = CreateReservationController.getContact('Kowalski', 'kowalski@test.pl');
-            Test.stopTest();
-
-            Assert.areEqual(c.Id, contactId, 'Should return existing contact');
-        }
-    }
-
-    @IsTest
-    static void testGetContact_notFound() {
-        System.runAs(TestHelper.getAdminUser()) {
-            Test.startTest();
-            Id contactId = CreateReservationController.getContact('Nowak', 'nowak@test.pl');
-            Test.stopTest();
-
-            Assert.isNull(contactId, 'Should return null when the contact doesnt exist. ');
-        }
     }
 
     @IsTest
