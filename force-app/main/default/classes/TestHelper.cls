@@ -1,4 +1,3 @@
-@IsTest
 public inherited sharing class TestHelper {
     public static User createAdminUser() {
         Profile p = [
