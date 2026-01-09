@@ -1,4 +1,4 @@
-public with sharing class CreateReservationHelper {
+public inherited sharing class CreateReservationHelper {
     public class Option {
         @AuraEnabled
         public String label { get; set; }
@@ -10,13 +10,44 @@ public with sharing class CreateReservationHelper {
             this.value = value;
         }
     }
-    public class ReservationRange {
-        public Datetime startTime;
-        public Datetime endTime;
 
-        public ReservationRange(Datetime s, Datetime e) {
-            startTime = s;
-            endTime = e;
+    public static List<Date> getBookedDates(Id resourceId) {
+        List<Date> bookedDates = new List<Date>();
+        for (Reservation__c res : [
+            SELECT Start_date__c, End_date__c
+            FROM Reservation__c
+            WHERE Resource__c = :resourceId AND End_date__c >= TODAY
+        ]) {
+            Date currentDate = res.Start_date__c;
+            while (currentDate <= res.End_date__c) {
+                bookedDates.add(currentDate);
+                currentDate = currentDate.addDays(1);
+            }
         }
+        return bookedDates;
+    }
+
+    public static Id getContact(String lastName, String email) {
+        List<Contact> contacts = [SELECT Id FROM Contact WHERE Email = :email AND LastName = :lastName LIMIT 1];
+        return contacts.isEmpty() ? null : contacts[0].Id;
+    }
+
+    public static List<CreateReservationHelper.Option> getResources() {
+        List<CreateReservationHelper.Option> options = new List<CreateReservationHelper.Option>();
+        for (Resource__c res : [SELECT Id, Name FROM Resource__c ORDER BY Name ASC]) {
+            options.add(new CreateReservationHelper.Option(res.Name, res.Id));
+        }
+        return options;
+    }
+
+    public static void createReservation(String lastName, String email, Id resourceId, Date startDate, Date endDate) {
+        Id contactId = getContact(lastName, email);
+        if (contactId == null) {
+            Contact newContact = new Contact(LastName = lastName, Email = email);
+            insert newContact;
+            contactId = newContact.Id;
+        }
+
+        insert new Reservation__c(Contact__c = contactId, Resource__c = resourceId, Start_date__c = startDate, End_date__c = endDate);
     }
 }
