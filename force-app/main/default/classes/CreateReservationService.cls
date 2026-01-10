@@ -1,4 +1,4 @@
-public inherited sharing class CreateReservationHelper {
+public inherited sharing class CreateReservationService {
     public class Option {
         @AuraEnabled
         public String label { get; set; }
@@ -32,10 +32,10 @@ public inherited sharing class CreateReservationHelper {
         return contacts.isEmpty() ? null : contacts[0].Id;
     }
 
-    public static List<CreateReservationHelper.Option> getResources() {
-        List<CreateReservationHelper.Option> options = new List<CreateReservationHelper.Option>();
+    public static List<CreateReservationService.Option> getResources() {
+        List<CreateReservationService.Option> options = new List<CreateReservationService.Option>();
         for (Resource__c res : [SELECT Id, Name FROM Resource__c ORDER BY Name ASC]) {
-            options.add(new CreateReservationHelper.Option(res.Name, res.Id));
+            options.add(new CreateReservationService.Option(res.Name, res.Id));
         }
         return options;
     }
