@@ -3,13 +3,11 @@ private class CreateReservationControllerTest {
     @TestSetup
     static void setupData() {
         System.runAs(TestHelper.createAdminUser()) {
-            insert new List<Resource__c>{
-                TestHelper.createResource('A Resource'),
-                TestHelper.createResource('B Resource'),
-                TestHelper.createResource('Room 1'),
-                TestHelper.createResource('Room 2'),
-                TestHelper.createResource('Room 3')
-            };
+            TestHelper.createResource('A Resource');
+            TestHelper.createResource('B Resource');
+            TestHelper.createResource('Room 1');
+            TestHelper.createResource('Room 2');
+            TestHelper.createResource('Room 3');
         }
 
     }
@@ -18,7 +16,7 @@ private class CreateReservationControllerTest {
     static void testGetResources() {
         System.runAs(TestHelper.getAdminUser()) {
             Test.startTest();
-            List<CreateReservationHelper.Option> options = CreateReservationController.getResources();
+            List<CreateReservationService.Option> options = CreateReservationController.getResources();
             Test.stopTest();
 
             Assert.areEqual(5, options.size(), 'Should return all resources');

@@ -1,8 +1,8 @@
 public without sharing class CreateReservationController {
     @AuraEnabled(cacheable=true)
-    public static List<CreateReservationHelper.Option> getResources() {
+    public static List<CreateReservationService.Option> getResources() {
         try {
-            return CreateReservationHelper.getResources();
+            return CreateReservationService.getResources();
         } catch (Exception e) {
             System.debug(LoggingLevel.ERROR, 'Error during retrieval of resources: ' + e.getMessage());
             throw new AuraHandledException('Error retrieving resources: ' + e.getMessage());
@@ -12,7 +12,7 @@ public without sharing class CreateReservationController {
     @AuraEnabled(cacheable=false)
     public static List<Date> getBookedDates(Id resourceId) {
         try {
-            return CreateReservationHelper.getBookedDates(resourceId);
+            return CreateReservationService.getBookedDates(resourceId);
         } catch (Exception e) {
             System.debug(LoggingLevel.ERROR, 'Error during retrieval of booked dates: ' + e.getMessage());
             throw new AuraHandledException('Error retrieving booked dates: ' + e.getMessage());
@@ -22,7 +22,7 @@ public without sharing class CreateReservationController {
     @AuraEnabled
     public static void createReservation(String lastName, String email, Id resourceId, Date startDate, Date endDate) {
         try {
-            CreateReservationHelper.createReservation(lastName, email, resourceId, startDate, endDate);
+            CreateReservationService.createReservation(lastName, email, resourceId, startDate, endDate);
         } catch (Exception e) {
             System.debug(LoggingLevel.ERROR, 'Error during creation of reservation: ' + e.getMessage());
             throw new AuraHandledException('An error occurred during creation of reservation: ' + e.getMessage());
