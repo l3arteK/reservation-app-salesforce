@@ -16,6 +16,10 @@
         <apexClass>CreateReservationController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>CreateReservationService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <fieldPermissions>
         <editable>true</editable>
         <field>Reservation__c.Status__c</field>
