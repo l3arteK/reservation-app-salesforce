@@ -40,14 +40,20 @@ public inherited sharing class CreateReservationService {
         return options;
     }
 
-    public static void createReservation(String lastName, String email, Id resourceId, Date startDate, Date endDate) {
+    public static Id createReservation(String lastName, String email, Id resourceId, Date startDate, Date endDate) {
         Id contactId = getContact(lastName, email);
         if (contactId == null) {
             Contact newContact = new Contact(LastName = lastName, Email = email);
             insert newContact;
             contactId = newContact.Id;
         }
-
-        insert new Reservation__c(Contact__c = contactId, Resource__c = resourceId, Start_date__c = startDate, End_date__c = endDate);
+        Reservation__c newReservation = new Reservation__c(
+            Contact__c = contactId,
+            Resource__c = resourceId,
+            Start_date__c = startDate,
+            End_date__c = endDate
+        );
+        insert newReservation;
+        return newReservation.Id;
     }
 }
