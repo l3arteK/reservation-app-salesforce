@@ -17,7 +17,7 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>CreateReservationService</apexClass>
+        <apexClass>ReservationService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <fieldPermissions>

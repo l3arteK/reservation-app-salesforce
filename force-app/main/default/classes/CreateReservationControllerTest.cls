@@ -16,7 +16,7 @@ private class CreateReservationControllerTest {
     static void testGetResources() {
         System.runAs(TestHelper.getAdminUser()) {
             Test.startTest();
-            List<CreateReservationService.Option> options = CreateReservationController.getResources();
+            List<ReservationService.Option> options = CreateReservationController.getResources();
             Test.stopTest();
 
             Assert.areEqual(5, options.size(), 'Should return all resources');

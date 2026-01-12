@@ -7,7 +7,7 @@ global with sharing class ReservationAPI {
         ApiResponse response;
 
         try {
-            Id reservationId = CreateReservationService.createReservation(
+            Id reservationId = ReservationService.createReservation(
                 lastName,
                 email,
                 (Id) resourceId,
@@ -48,7 +48,7 @@ global with sharing class ReservationAPI {
                 response = new ApiResponse('BadRequest', 'Both email and lastName parameters are required.');
                 return;
             }
-            List<Reservation__c> reservations = CreateReservationService.getReservations(email, lastName);
+            List<Reservation__c> reservations = ReservationService.getReservations(email, lastName);
             res.statusCode = 200;
             response = new ApiResponse(reservations);
         } catch (Exception e) {

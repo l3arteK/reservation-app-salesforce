@@ -1,4 +1,4 @@
-public inherited sharing class CreateReservationService {
+public inherited sharing class ReservationService {
     public class Option {
         @AuraEnabled
         public String label { get; set; }
