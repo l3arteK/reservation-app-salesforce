@@ -1,5 +1,5 @@
 @RestResource(urlMapping='/ReservationService/*')
-global with sharing class CreateReservationAPI {
+global with sharing class ReservationAPI {
     @HttpPost
     global static void createReservation(String email, String lastName, String resourceId, String startDt, String endDt) {
         RestResponse res = RestContext.response;
@@ -23,6 +23,25 @@ global with sharing class CreateReservationAPI {
             String errorMessage = e.getDmlMessage(0);
 
             response = new ApiResponse(salesforceErrorCode, errorMessage);
+        } catch (Exception e) {
+            res.statusCode = 500;
+            String exceptionType = e.getTypeName();
+            response = new ApiResponse(exceptionType, e.getMessage());
+        }
+
+        res.responseBody = Blob.valueOf(JSON.serialize(response));
+    }
+
+    @HttpGet
+    global static void getResources() {
+        RestResponse res = RestContext.response;
+        res.addHeader('Content-Type', 'application/json');
+        ApiResponse response;
+
+        try {
+            List<Resource__c> resources = CreateReservationService.getResources();
+            res.statusCode = 200;
+            response = new ApiResponse(resources);
         } catch (Exception e) {
             res.statusCode = 500;
             String exceptionType = e.getTypeName();

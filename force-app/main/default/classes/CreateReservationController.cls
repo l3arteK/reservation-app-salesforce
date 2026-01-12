@@ -2,7 +2,11 @@ public without sharing class CreateReservationController {
     @AuraEnabled(cacheable=true)
     public static List<CreateReservationService.Option> getResources() {
         try {
-            return CreateReservationService.getResources();
+            List<CreateReservationService.Option> options = new List<CreateReservationService.Option>();
+            for (Resource__c res : CreateReservationService.getResources()) {
+                options.add(new CreateReservationService.Option(res.Name, res.Id));
+            }
+            return options;
         } catch (Exception e) {
             System.debug(LoggingLevel.ERROR, 'Error during retrieval of resources: ' + e.getMessage());
             throw new AuraHandledException('Error retrieving resources: ' + e.getMessage());

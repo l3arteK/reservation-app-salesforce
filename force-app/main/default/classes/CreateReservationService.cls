@@ -32,12 +32,8 @@ public inherited sharing class CreateReservationService {
         return contacts.isEmpty() ? null : contacts[0].Id;
     }
 
-    public static List<CreateReservationService.Option> getResources() {
-        List<CreateReservationService.Option> options = new List<CreateReservationService.Option>();
-        for (Resource__c res : [SELECT Id, Name FROM Resource__c ORDER BY Name ASC]) {
-            options.add(new CreateReservationService.Option(res.Name, res.Id));
-        }
-        return options;
+    public static List<Resource__c> getResources() {
+        return [SELECT Id, Name FROM Resource__c ORDER BY Name ASC];
     }
 
     public static Id createReservation(String lastName, String email, Id resourceId, Date startDate, Date endDate) {
