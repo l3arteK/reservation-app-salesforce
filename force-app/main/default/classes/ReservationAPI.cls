@@ -33,22 +33,31 @@ global with sharing class ReservationAPI {
     }
 
     @HttpGet
-    global static void getResources() {
+    global static void getReservations() {
         RestResponse res = RestContext.response;
+        RestRequest req = RestContext.request;
         res.addHeader('Content-Type', 'application/json');
         ApiResponse response;
 
+        String email = req.params.get('email');
+        String lastName = req.params.get('lastName');
+
         try {
-            List<Resource__c> resources = CreateReservationService.getResources();
+            if (email == null || lastName == null) {
+                res.statusCode = 400;
+                response = new ApiResponse('BadRequest', 'Both email and lastName parameters are required.');
+                return;
+            }
+            List<Reservation__c> reservations = CreateReservationService.getReservations(email, lastName);
             res.statusCode = 200;
-            response = new ApiResponse(resources);
+            response = new ApiResponse(reservations);
         } catch (Exception e) {
             res.statusCode = 500;
             String exceptionType = e.getTypeName();
             response = new ApiResponse(exceptionType, e.getMessage());
+        } finally {
+            res.responseBody = Blob.valueOf(JSON.serialize(response));
         }
-
-        res.responseBody = Blob.valueOf(JSON.serialize(response));
     }
 
     public class ApiResponse {

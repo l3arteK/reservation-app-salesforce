@@ -33,7 +33,20 @@ public inherited sharing class CreateReservationService {
     }
 
     public static List<Resource__c> getResources() {
-        return [SELECT Id, Name FROM Resource__c ORDER BY Name ASC];
+        return [SELECT Id, Name, Type__c FROM Resource__c ORDER BY Name ASC];
+    }
+
+    public static List<Reservation__c> getReservations(String email, String lastName) {
+        Id contactId = getContact(lastName, email);
+        if (contactId == null) {
+            return new List<Reservation__c>();
+        }
+        return [
+            SELECT Id, Contact__r.Name, Resource__r.Name, Start_date__c, End_date__c
+            FROM Reservation__c
+            WHERE Contact__c = :contactId
+            ORDER BY Start_date__c DESC
+        ];
     }
 
     public static Id createReservation(String lastName, String email, Id resourceId, Date startDate, Date endDate) {
