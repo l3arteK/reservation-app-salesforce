@@ -13,7 +13,7 @@ private class CreateReservationServiceTest {
     static void testGetContact_existingContact() {
         System.runAs(TestHelper.getAdminUser()) {
             Test.startTest();
-            Id contactId = CreateReservationService.getContact('Kowalski', 'kowalski@test.pl');
+            Id contactId = ReservationService.getContact('Kowalski', 'kowalski@test.pl');
             Test.stopTest();
 
             Assert.isNotNull(contactId, 'Should return existing contact');
@@ -24,7 +24,7 @@ private class CreateReservationServiceTest {
     static void testGetContact_notFound() {
         System.runAs(TestHelper.getAdminUser()) {
             Test.startTest();
-            Id contactId = CreateReservationService.getContact('Nowak', 'nowak@test.pl');
+            Id contactId = ReservationService.getContact('Nowak', 'nowak@test.pl');
             Test.stopTest();
 
             Assert.isNull(contactId, 'Should return null when the contact doesnt exist. ');
@@ -40,7 +40,7 @@ private class CreateReservationServiceTest {
             TestHelper.createReservation(c.Id, res.Id, Date.today(), Date.today().addDays(2));
 
             Test.startTest();
-            List<Date> dates = CreateReservationService.getBookedDates(res.Id);
+            List<Date> dates = ReservationService.getBookedDates(res.Id);
             Test.stopTest();
 
             Assert.areEqual(3, dates.size(), 'Should return 3 days');
@@ -57,7 +57,7 @@ private class CreateReservationServiceTest {
             TestHelper.createReservation(c.Id, res.Id, Date.today().addDays(2), Date.today().addDays(3));
 
             Test.startTest();
-            List<Date> dates = CreateReservationService.getBookedDates(res.Id);
+            List<Date> dates = ReservationService.getBookedDates(res.Id);
             Test.stopTest();
 
             Assert.areEqual(3, dates.size(), 'Should return all days from both reservations');
@@ -70,7 +70,7 @@ private class CreateReservationServiceTest {
             Resource__c res = [SELECT Id FROM Resource__c LIMIT 1];
 
             Test.startTest();
-            List<Date> dates = CreateReservationService.getBookedDates(res.Id);
+            List<Date> dates = ReservationService.getBookedDates(res.Id);
             Test.stopTest();
 
             Assert.areEqual(0, dates.size(), 'Should return empty list when there are no reservations');
@@ -84,16 +84,16 @@ private class CreateReservationServiceTest {
             Resource__c r2 = [SELECT Id FROM Resource__c WHERE Name = 'Room B' LIMIT 1];
 
             Test.startTest();
-            List<CreateReservationService.Option> options = CreateReservationService.getResources();
+            List<Resource__c> options = ReservationService.getResources();
             Test.stopTest();
 
             Assert.areEqual(2, options.size(), 'getResources should return exactly 2 resource options');
             Assert.areEqual(
                 'Room A',
-                options[0].label,
+                options[0].name,
                 'The first option label should be "A Resource" (resources must be sorted by Name ascending)'
             );
-            Assert.areEqual(r1.Id, options[0].value, 'The first option value should contain the Id of the "A Resource" record');
+            Assert.areEqual(r1.Id, options[0].Id, 'The first option value should contain the Id of the "A Resource" record');
         }
     }
 
@@ -104,7 +104,7 @@ private class CreateReservationServiceTest {
             Contact c = [SELECT Id FROM Contact LIMIT 1];
 
             Test.startTest();
-            CreateReservationService.createReservation('Kowalski', 'kowalski@test.pl', res.Id, Date.today(), Date.today().addDays(1));
+            ReservationService.createReservation('Kowalski', 'kowalski@test.pl', res.Id, Date.today(), Date.today().addDays(1));
             Test.stopTest();
 
             Reservation__c r = [
@@ -124,7 +124,7 @@ private class CreateReservationServiceTest {
             Resource__c res = [SELECT Id FROM Resource__c LIMIT 1];
 
             Test.startTest();
-            CreateReservationService.createReservation('New', 'new@test.pl', res.Id, Date.today(), Date.today());
+            ReservationService.createReservation('New', 'new@test.pl', res.Id, Date.today(), Date.today());
             Test.stopTest();
 
             Contact c = [

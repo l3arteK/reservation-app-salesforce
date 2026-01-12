@@ -1,4 +1,4 @@
-public inherited sharing class CreateReservationService {
+public inherited sharing class ReservationService {
     public class Option {
         @AuraEnabled
         public String label { get; set; }
@@ -32,22 +32,37 @@ public inherited sharing class CreateReservationService {
         return contacts.isEmpty() ? null : contacts[0].Id;
     }
 
-    public static List<CreateReservationService.Option> getResources() {
-        List<CreateReservationService.Option> options = new List<CreateReservationService.Option>();
-        for (Resource__c res : [SELECT Id, Name FROM Resource__c ORDER BY Name ASC]) {
-            options.add(new CreateReservationService.Option(res.Name, res.Id));
-        }
-        return options;
+    public static List<Resource__c> getResources() {
+        return [SELECT Id, Name, Type__c FROM Resource__c ORDER BY Name ASC];
     }
 
-    public static void createReservation(String lastName, String email, Id resourceId, Date startDate, Date endDate) {
+    public static List<Reservation__c> getReservations(String email, String lastName) {
+        Id contactId = getContact(lastName, email);
+        if (contactId == null) {
+            return new List<Reservation__c>();
+        }
+        return [
+            SELECT Id, Contact__r.Name, Resource__r.Name, Start_date__c, End_date__c
+            FROM Reservation__c
+            WHERE Contact__c = :contactId
+            ORDER BY Start_date__c DESC
+        ];
+    }
+
+    public static Id createReservation(String lastName, String email, Id resourceId, Date startDate, Date endDate) {
         Id contactId = getContact(lastName, email);
         if (contactId == null) {
             Contact newContact = new Contact(LastName = lastName, Email = email);
             insert newContact;
             contactId = newContact.Id;
         }
-
-        insert new Reservation__c(Contact__c = contactId, Resource__c = resourceId, Start_date__c = startDate, End_date__c = endDate);
+        Reservation__c newReservation = new Reservation__c(
+            Contact__c = contactId,
+            Resource__c = resourceId,
+            Start_date__c = startDate,
+            End_date__c = endDate
+        );
+        insert newReservation;
+        return newReservation.Id;
     }
 }
