@@ -1,0 +1,26 @@
+<template>
+    <div class="section">
+        <h3 class="section-title">Your details</h3>
+
+        <lightning-input
+            label="Last name"
+            name="lastName"
+            required
+            onchange={handleChange}
+            disabled={searchContactDisabled}
+        ></lightning-input>
+
+        <lightning-input
+            label="Email address"
+            name="email"
+            type="email"
+            required
+            onchange={handleChange}
+            disabled={searchContactDisabled}
+            message-when-bad-input="Enter a valid email address"
+        ></lightning-input>
+        <lightning-button label="Search Contact" onclick={handleSearch}></lightning-button>
+    </div>
+    <c-create-reservation></c-create-reservation>
+    <c-manage-reservation></c-manage-reservation>
+</template>

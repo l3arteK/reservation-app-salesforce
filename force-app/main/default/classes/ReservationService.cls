@@ -32,6 +32,10 @@ public inherited sharing class ReservationService {
         return contacts.isEmpty() ? null : contacts[0].Id;
     }
 
+    public static void deleteReservation(Id reservationId) {
+        delete [SELECT Id FROM Reservation__c WHERE Id = :reservationId LIMIT 1];
+    }
+
     public static List<Resource__c> getResources() {
         return [SELECT Id, Name, Type__c FROM Resource__c ORDER BY Name ASC];
     }
@@ -43,6 +47,15 @@ public inherited sharing class ReservationService {
         }
         return [
             SELECT Id, Contact__r.Name, Resource__r.Name, Start_date__c, End_date__c
+            FROM Reservation__c
+            WHERE Contact__c = :contactId
+            ORDER BY Start_date__c DESC
+        ];
+    }
+
+    public static List<Reservation__c> getReservations(Id contactId) {
+        return [
+            SELECT Id, Resource__r.Name, Start_date__c, End_date__c
             FROM Reservation__c
             WHERE Contact__c = :contactId
             ORDER BY Start_date__c DESC

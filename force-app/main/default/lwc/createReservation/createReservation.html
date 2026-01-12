@@ -3,29 +3,6 @@
         <template if:true={message}>
             <div class={messageClass}>{message}</div>
         </template>
-
-        <div class="section">
-            <h3 class="section-title">Your details</h3>
-
-            <lightning-input
-                label="Last name"
-                name="lastName"
-                required
-                onchange={handleChange}
-                disabled={searchContactDisabled}
-            ></lightning-input>
-
-            <lightning-input
-                label="Email address"
-                name="email"
-                type="email"
-                required
-                onchange={handleChange}
-                disabled={searchContactDisabled}
-                message-when-bad-input="Enter a valid email address"
-            ></lightning-input>
-        </div>
-
         <div class="section slds-m-top_large">
             <h3 class="section-title">Reservation details</h3>
 
