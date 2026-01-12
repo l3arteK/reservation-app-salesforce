@@ -1,12 +1,20 @@
 {
   "packageDirectories": [
     {
+      "versionName": "ver 0.1",
+      "versionNumber": "0.1.0.NEXT",
       "path": "force-app",
-      "default": true
+      "default": true,
+      "package": "Reservation Manager",
+      "versionDescription": ""
     }
   ],
-  "name": "Internal Task &amp; Time Management App",
+  "name": "Reservation Manager",
   "namespace": "",
   "sfdcLoginUrl": "https://login.salesforce.com",
-  "sourceApiVersion": "65.0"
+  "sourceApiVersion": "65.0",
+  "packageAliases": {
+    "Reservation Manager": "0Hog5000000085dCAA",
+    "Reservation Manager@0.1.0-1": "04tg50000001DhZAAU"
+  }
 }
