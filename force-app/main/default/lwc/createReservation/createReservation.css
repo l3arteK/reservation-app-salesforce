@@ -4,11 +4,6 @@
     background: var(--lwc-colorBackgroundAlt, #f9f9f9);
 }
 
-.section-title {
-    font-weight: 600;
-    margin-bottom: 0.75rem;
-}
-
 .actions {
     display: flex;
     align-items: center;
