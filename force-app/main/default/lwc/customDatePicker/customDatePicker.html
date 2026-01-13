@@ -19,11 +19,13 @@
                                         onchange={handleInputChange}
                                         name="startDateValue"
                                         required={required}
+                                        disabled={disabled}
                                     />
                                     <button
                                         class="slds-button slds-button_icon slds-input__icon slds-input__icon_right"
                                         onclick={toggleDatePicker}
                                         title="Select a date"
+                                        disabled={disabled}
                                     >
                                         <lightning-icon
                                             icon-name="utility:event"
@@ -50,6 +52,7 @@
                                         onchange={handleInputChange}
                                         name="endDateValue"
                                         required={required}
+                                        disabled={disabled}
                                     />
                                     <button
                                         class="slds-button slds-button_icon slds-input__icon slds-input__icon_right"
@@ -60,6 +63,7 @@
                                             icon-name="utility:event"
                                             size="x-small"
                                             alternative-text="Select a date"
+                                            disabled={disabled}
                                         ></lightning-icon>
                                         <span class="slds-assistive-text">Select a date</span>
                                     </button>

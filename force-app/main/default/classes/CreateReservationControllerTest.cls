@@ -8,6 +8,7 @@ private class CreateReservationControllerTest {
             TestHelper.createResource('Room 1');
             TestHelper.createResource('Room 2');
             TestHelper.createResource('Room 3');
+            TestHelper.createContact('Test', 'test@test.pl');
         }
 
     }
@@ -27,7 +28,7 @@ private class CreateReservationControllerTest {
     static void testGetBookedDates() {
         System.runAs(TestHelper.getAdminUser()) {
             Resource__c res = [SELECT Id, Name FROM Resource__c WHERE Name = 'Room 1' LIMIT 1];
-            Contact c = TestHelper.createContact('Test', 'test@test.pl');
+            Contact c = [SELECT Id FROM Contact LIMIT 1];
 
             TestHelper.createReservation(c.Id, res.Id, Date.today(), Date.today().addDays(2));
 
@@ -43,10 +44,9 @@ private class CreateReservationControllerTest {
     static void testCreateReservation_existingContact() {
         System.runAs(TestHelper.getAdminUser()) {
             Resource__c res = [SELECT Id FROM Resource__c WHERE Name = 'Room 2' LIMIT 1];
-            Contact c = TestHelper.createContact('Existing', 'existing@test.pl');
-
+            Contact c = [SELECT Id FROM Contact LIMIT 1];
             Test.startTest();
-            CreateReservationController.createReservation('Existing', 'existing@test.pl', res.Id, Date.today(), Date.today().addDays(1));
+            CreateReservationController.createReservation('Test', 'test@test.pl', res.Id, Date.today(), Date.today().addDays(1));
             Test.stopTest();
 
             Reservation__c r = [
@@ -103,6 +103,34 @@ private class CreateReservationControllerTest {
 
             Test.stopTest();
             Assert.isTrue(exceptionThrown, 'Should throw exception when resourceId is null');
+        }
+    }
+
+    @IsTest
+    static void testUpdateReservation_success() {
+        System.runAs(TestHelper.getAdminUser()) {
+            Resource__c originalRes = [SELECT Id FROM Resource__c WHERE Name = 'Room 1' LIMIT 1];
+            Resource__c newRes = [SELECT Id FROM Resource__c WHERE Name = 'Room 2' LIMIT 1];
+            Contact c = [SELECT Id FROM Contact LIMIT 1];
+
+            Reservation__c r = TestHelper.createReservation(c.Id, originalRes.Id, Date.today(), Date.today().addDays(1));
+
+            Date newStart = Date.today().addDays(3);
+            Date newEnd = Date.today().addDays(5);
+
+            Test.startTest();
+            CreateReservationController.updateReservation(r.Id, newRes.Id, newStart, newEnd);
+            Test.stopTest();
+
+            Reservation__c updated = [
+                SELECT Resource__c, Start_date__c, End_date__c
+                FROM Reservation__c
+                WHERE Id = :r.Id
+            ];
+
+            Assert.areEqual(newRes.Id, updated.Resource__c, 'updateReservation should update the Resource on the reservation');
+            Assert.areEqual(newStart, updated.Start_date__c, 'updateReservation should update the Start Date');
+            Assert.areEqual(newEnd, updated.End_date__c, 'updateReservation should update the End Date');
         }
     }
 }

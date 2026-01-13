@@ -6,7 +6,7 @@
     <relationshipLabel>Reservations</relationshipLabel>
     <relationshipName>Reservations</relationshipName>
     <relationshipOrder>0</relationshipOrder>
-    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <reparentableMasterDetail>true</reparentableMasterDetail>
     <trackTrending>false</trackTrending>
     <type>MasterDetail</type>
     <writeRequiresMasterRead>false</writeRequiresMasterRead>

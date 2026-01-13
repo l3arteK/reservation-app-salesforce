@@ -1,12 +1,13 @@
-import { LightningElement, wire } from "lwc";
+import { LightningElement, wire, api } from "lwc";
 import getResources from "@salesforce/apex/CreateReservationController.getResources";
 import createReservation from "@salesforce/apex/CreateReservationController.createReservation";
 import getBookedDates from "@salesforce/apex/CreateReservationController.getBookedDates";
-
+import updateReservation from "@salesforce/apex/CreateReservationController.updateReservation";
 export default class CreateReservation extends LightningElement {
-    contactId;
-    lastName;
-    email;
+    @api lastName;
+    @api email;
+    @api contactProvided;
+
     startDate;
     endDate;
     message;
@@ -14,6 +15,34 @@ export default class CreateReservation extends LightningElement {
     resources;
     resource;
     isSubmitting = false;
+    subscription = null;
+    isEditMode = false;
+    reservationId;
+
+    get disabled() {
+        return !this.contactProvided;
+    }
+
+    @api
+    set initialData(value) {
+        if (value) {
+            this.reservationId = value.Id;
+            this.resource = value.ResourceId;
+            this.startDate = value.Start_date__c;
+            this.endDate = value.End_date__c;
+            this.isEditMode = true;
+        } else {
+            this.isEditMode = false;
+            this.reservationId = null;
+            this.resource = null;
+            this.startDate = null;
+            this.endDate = null;
+        }
+    }
+
+    get initialData() {
+        return null;
+    }
 
     @wire(getResources)
     wireResources({ error, data }) {
@@ -47,28 +76,29 @@ export default class CreateReservation extends LightningElement {
         this.endDate = endDate;
     }
 
-    handleSubmit() {
+    async handleSubmit() {
         if (!this.validateForm()) {
             this.showBanner("Please correct the errors on the form.", "error");
-        } else {
-            this.isSubmitting = true;
-            createReservation({
-                lastName: this.lastName,
-                email: this.email,
-                resourceId: this.resource,
-                startDate: this.startDate,
-                endDate: this.endDate
-            })
-                .then(() => {
-                    this.resetForm();
-                    this.showBanner("Reservation created successfully.", "success");
-                })
-                .catch((error) => {
-                    this.showBanner(error.body.message, "error");
-                })
-                .finally(() => {
-                    this.isSubmitting = false;
-                });
+            return;
+        }
+
+        const action = this.isEditMode ? updateReservation : createReservation;
+        const params = {
+            resourceId: this.resource,
+            startDate: this.startDate,
+            endDate: this.endDate,
+            ...(this.isEditMode ? { reservationId: this.reservationId } : { lastName: this.lastName, email: this.email })
+        };
+
+        this.isSubmitting = true;
+        try {
+            await action(params);
+            this.resetForm();
+            this.showBanner(`Reservation ${this.isEditMode ? "updated" : "created"} successfully.`, "success");
+        } catch (error) {
+            this.showBanner(error.body?.message || "An error occurred", "error");
+        } finally {
+            this.isSubmitting = false;
         }
     }
 
@@ -79,7 +109,6 @@ export default class CreateReservation extends LightningElement {
 
     handleReset() {
         this.resetForm();
-        this.contactId = null;
     }
 
     resetForm() {
@@ -96,6 +125,10 @@ export default class CreateReservation extends LightningElement {
             : "slds-notify slds-notify_alert slds-theme_error";
     }
 
+    get submitButtonLabel() {
+        return this.isEditMode ? "Update Reservation" : "Create Reservation";
+    }
+
     validateForm() {
         let isValid = true;
 
@@ -107,9 +140,5 @@ export default class CreateReservation extends LightningElement {
         });
 
         return isValid;
-    }
-
-    get searchContactDisabled() {
-        return this.contactId !== undefined && this.contactId !== null;
     }
 }

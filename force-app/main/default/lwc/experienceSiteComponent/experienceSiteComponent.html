@@ -1,0 +1,54 @@
+<template>
+    <lightning-card title="Enter contact info" icon-name="standard:avatar">
+        <div class="section slds-m-top_medium">
+            <lightning-input
+                label="Last name"
+                name="lastName"
+                required
+                onchange={handleChange}
+                disabled={searchContactDisabled}
+            ></lightning-input>
+
+            <lightning-input
+                label="Email address"
+                name="email"
+                type="email"
+                required
+                onchange={handleChange}
+                disabled={searchContactDisabled}
+            ></lightning-input>
+
+            <div class="slds-m-top_small">
+                <lightning-button label="Confirm contact" variant="brand" onclick={handleConfirm}> </lightning-button>
+                <lightning-button label="Reset" variant="neutral" onclick={handleResetContact} class="slds-m-left_small">
+                </lightning-button>
+            </div>
+        </div>
+    </lightning-card>
+
+    <div class="slds-grid slds-gutters">
+        <div class={NewReservationButtonClass}>
+            <lightning-button label="New Reservation" icon-name="utility:add" onclick={showCreateView} variant="base"> </lightning-button>
+        </div>
+        <div class={ManageReservationsButtonClass}>
+            <lightning-button label="Manage My Reservations" icon-name="utility:table" onclick={showManageView} variant="base">
+            </lightning-button>
+        </div>
+    </div>
+
+    <template lwc:if={isCreateView}>
+        <c-create-reservation
+            initial-data={initialData}
+            last-name={lastName}
+            email={email}
+            contact-provided={contactProvided}
+        ></c-create-reservation>
+    </template>
+    <template lwc:else>
+        <c-manage-reservation
+            contact-id={contactId}
+            contact-provided={contactProvided}
+            oneditreservation={handleEditReservation}
+        ></c-manage-reservation>
+    </template>
+</template>

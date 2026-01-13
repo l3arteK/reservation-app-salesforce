@@ -1,5 +1,5 @@
 @isTest
-private class CreateReservationServiceTest {
+private class ReservationServiceTest {
     @TestSetup
     static void setup() {
         System.runAs(TestHelper.createAdminUser()) {
