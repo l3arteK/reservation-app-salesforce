@@ -5,18 +5,18 @@ export default class ExperienceSiteComponent extends LightningElement {
     lastName;
     email;
     viewMode = "create";
+    contactId;
+    contactProvided = false;
+    initialData;
+
     handleChange(event) {
         const { name, value } = event.target;
         this[name] = value;
     }
     handleSearch() {
         getContact({ lastName: this.lastName, email: this.email }).then((contact) => {
-            const manageReservationComponent = this.template.querySelector("c-manage-reservation");
-            manageReservationComponent.contactId = contact;
-            manageReservationComponent.contactProvided = true;
-            const createReservationComponent = this.template.querySelector("c-create-reservation");
-            createReservationComponent.contactId = contact;
-            createReservationComponent.contactProvided = true;
+            this.contactId = contact;
+            this.contactProvided = true;
         });
     }
 
@@ -32,6 +32,10 @@ export default class ExperienceSiteComponent extends LightningElement {
     showManageView(event) {
         this.viewMode = "manage";
         event.target.blur();
+    }
+    handleEditReservation(event) {
+        this.viewMode = "create";
+        this.initialData = event.detail;
     }
 
     get NewReservationButtonClass() {

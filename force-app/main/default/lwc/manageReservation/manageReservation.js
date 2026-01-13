@@ -30,7 +30,8 @@ export default class ManageReservation extends LightningElement {
                 Id: reservation.Id,
                 Start_date__c: reservation.Start_date__c,
                 End_date__c: reservation.End_date__c,
-                ResourceName: reservation.Resource__r.Name
+                ResourceName: reservation.Resource__r.Name,
+                ResourceId: reservation.Resource__c
             }));
         } else if (error) {
             console.error("Error fetching reservations:", error);
@@ -39,19 +40,23 @@ export default class ManageReservation extends LightningElement {
 
     handleRowAction(event) {
         const actionName = event.detail.action.name;
-        const rowId = event.detail.row.Id;
+        const row = event.detail.row;
 
         if (actionName === "edit") {
-            this.handleEdit(rowId);
+            this.handleEdit(row);
         } else if (actionName === "delete") {
-            this.handleDelete(rowId);
+            this.handleDelete(row.Id);
         }
     }
 
-    handleEdit(rowId) {
-        // Implement edit functionality here
-        console.log("Editing reservation: ", rowId);
+    handleEdit(row) {
+        this.dispatchEvent(
+            new CustomEvent("editreservation", {
+                detail: row
+            })
+        );
     }
+
     handleDelete(rowId) {
         deleteReservation({ reservationId: rowId })
             .then(() => {

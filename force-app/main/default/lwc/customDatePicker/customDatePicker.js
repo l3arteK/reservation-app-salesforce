@@ -26,11 +26,25 @@ export default class CustomDatePicker extends LightningElement {
     _disabledDates;
     @api required = false;
     @api preview = false;
-
+    @api disabled;
     weeks = [];
 
     set isDatePickerOpen(value) {
         this._isDatePickerOpen = value;
+    }
+
+    @api set valueStartDate(value) {
+        this.rangeStart = value ? new Date(value) : null;
+    }
+    get valueStartDate() {
+        return this.rangeStart;
+    }
+
+    get valueEndDate() {
+        return this.rangeEnd;
+    }
+    @api set valueEndDate(value) {
+        this.rangeEnd = value ? new Date(value) : null;
     }
 
     @api

@@ -32,4 +32,14 @@ public without sharing class CreateReservationController {
             throw new AuraHandledException('An error occurred during creation of reservation: ' + e.getMessage());
         }
     }
+
+    @AuraEnabled
+    public static void updateReservation(Id reservationId, Id resourceId, Date startDate, Date endDate) {
+        try {
+            ReservationService.updateReservation(reservationId, resourceId, startDate, endDate);
+        } catch (Exception e) {
+            System.debug(LoggingLevel.ERROR, 'Error during update of reservation: ' + e.getMessage());
+            throw new AuraHandledException('An error occurred during update of reservation: ' + e.getMessage());
+        }
+    }
 }

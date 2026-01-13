@@ -36,9 +36,18 @@
     </div>
 
     <template lwc:if={isCreateView}>
-        <c-create-reservation contact-id={contactId}></c-create-reservation>
+        <c-create-reservation
+            initial-data={initialData}
+            last-name={lastName}
+            email={email}
+            contact-provided={contactProvided}
+        ></c-create-reservation>
     </template>
     <template lwc:else>
-        <c-manage-reservation contact-id={contactId}></c-manage-reservation>
+        <c-manage-reservation
+            contact-id={contactId}
+            contact-provided={contactProvided}
+            oneditreservation={handleEditReservation}
+        ></c-manage-reservation>
     </template>
 </template>

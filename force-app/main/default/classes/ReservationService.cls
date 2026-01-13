@@ -55,7 +55,7 @@ public inherited sharing class ReservationService {
 
     public static List<Reservation__c> getReservations(Id contactId) {
         return [
-            SELECT Id, Resource__r.Name, Start_date__c, End_date__c
+            SELECT Id, Resource__c, Resource__r.Name, Start_date__c, End_date__c
             FROM Reservation__c
             WHERE Contact__c = :contactId
             ORDER BY Start_date__c DESC
@@ -77,5 +77,18 @@ public inherited sharing class ReservationService {
         );
         insert newReservation;
         return newReservation.Id;
+    }
+
+    public static void updateReservation(Id reservationId, Id resourceId, Date startDate, Date endDate) {
+        Reservation__c resToUpdate = [
+            SELECT Id, Resource__c, Start_date__c, End_date__c
+            FROM Reservation__c
+            WHERE Id = :reservationId
+            LIMIT 1
+        ];
+        resToUpdate.Resource__c = resourceId;
+        resToUpdate.Start_date__c = startDate;
+        resToUpdate.End_date__c = endDate;
+        update resToUpdate;
     }
 }
