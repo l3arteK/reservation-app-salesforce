@@ -52,7 +52,6 @@ export default class ManageReservation extends LightningElement {
         console.log("Editing reservation: ", rowId);
     }
     handleDelete(rowId) {
-        console.log("Deleting reservation: ", rowId);
         deleteReservation({ reservationId: rowId })
             .then(() => {
                 this.reservations = this.reservations.filter((reservation) => reservation.Id !== rowId);

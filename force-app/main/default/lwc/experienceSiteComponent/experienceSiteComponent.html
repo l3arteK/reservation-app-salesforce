@@ -1,5 +1,5 @@
 <template>
-    <div class="section">
+    <div class="section slds-p-bottom_medium">
         <h3 class="section-title">Your details</h3>
 
         <lightning-input
@@ -19,8 +19,26 @@
             disabled={searchContactDisabled}
             message-when-bad-input="Enter a valid email address"
         ></lightning-input>
-        <lightning-button label="Search Contact" onclick={handleSearch}></lightning-button>
+
+        <div class="slds-m-top_small">
+            <lightning-button label="Search Contact" variant="brand" onclick={handleSearch}> </lightning-button>
+        </div>
     </div>
-    <c-create-reservation></c-create-reservation>
-    <c-manage-reservation></c-manage-reservation>
+
+    <div class="slds-grid slds-gutters">
+        <div class={NewReservationButtonClass}>
+            <lightning-button label="New Reservation" icon-name="utility:add" onclick={showCreateView} variant="base"> </lightning-button>
+        </div>
+        <div class={ManageReservationsButtonClass}>
+            <lightning-button label="Manage My Reservations" icon-name="utility:table" onclick={showManageView} variant="base">
+            </lightning-button>
+        </div>
+    </div>
+
+    <template lwc:if={isCreateView}>
+        <c-create-reservation contact-id={contactId}></c-create-reservation>
+    </template>
+    <template lwc:else>
+        <c-manage-reservation contact-id={contactId}></c-manage-reservation>
+    </template>
 </template>

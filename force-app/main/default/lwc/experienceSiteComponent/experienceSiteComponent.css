@@ -14,3 +14,16 @@
     align-items: center;
     gap: 0.75rem;
 }
+.active-tab {
+    background-color: cadetblue;
+    --slds-c-button-text-color: white;
+   
+}
+.custom-button {
+    --slds-c-button-shadow-focus: none;
+    --slds-c-button-shadow-active: none;
+    --slds-c-button-outline-color-focus: transparent;
+    --slds-c-button-outline-color-active: transparent;
+    --slds-c-button-outline-color-focus: transparent;
+
+}
