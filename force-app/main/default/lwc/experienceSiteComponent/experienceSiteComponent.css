@@ -15,7 +15,7 @@
     gap: 0.75rem;
 }
 .active-tab {
-    background-color: cadetblue;
+    background-color: #0176d3;
     --slds-c-button-text-color: white;
    
 }

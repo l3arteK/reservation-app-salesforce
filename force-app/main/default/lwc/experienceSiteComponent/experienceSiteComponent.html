@@ -1,29 +1,30 @@
 <template>
-    <div class="section slds-p-bottom_medium">
-        <h3 class="section-title">Your details</h3>
+    <lightning-card title="Enter contact info" icon-name="standard:avatar">
+        <div class="section slds-m-top_medium">
+            <lightning-input
+                label="Last name"
+                name="lastName"
+                required
+                onchange={handleChange}
+                disabled={searchContactDisabled}
+            ></lightning-input>
 
-        <lightning-input
-            label="Last name"
-            name="lastName"
-            required
-            onchange={handleChange}
-            disabled={searchContactDisabled}
-        ></lightning-input>
+            <lightning-input
+                label="Email address"
+                name="email"
+                type="email"
+                required
+                onchange={handleChange}
+                disabled={searchContactDisabled}
+            ></lightning-input>
 
-        <lightning-input
-            label="Email address"
-            name="email"
-            type="email"
-            required
-            onchange={handleChange}
-            disabled={searchContactDisabled}
-        ></lightning-input>
-
-        <div class="slds-m-top_small">
-            <lightning-button label="Confirm contact" variant="brand" onclick={handleConfirm}> </lightning-button>
-            <lightning-button label="Reset" variant="neutral" onclick={handleResetContact} class="slds-m-left_small"> </lightning-button>
+            <div class="slds-m-top_small">
+                <lightning-button label="Confirm contact" variant="brand" onclick={handleConfirm}> </lightning-button>
+                <lightning-button label="Reset" variant="neutral" onclick={handleResetContact} class="slds-m-left_small">
+                </lightning-button>
+            </div>
         </div>
-    </div>
+    </lightning-card>
 
     <div class="slds-grid slds-gutters">
         <div class={NewReservationButtonClass}>
