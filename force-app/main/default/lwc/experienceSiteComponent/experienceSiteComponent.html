@@ -17,11 +17,11 @@
             required
             onchange={handleChange}
             disabled={searchContactDisabled}
-            message-when-bad-input="Enter a valid email address"
         ></lightning-input>
 
         <div class="slds-m-top_small">
-            <lightning-button label="Search Contact" variant="brand" onclick={handleSearch}> </lightning-button>
+            <lightning-button label="Confirm contact" variant="brand" onclick={handleConfirm}> </lightning-button>
+            <lightning-button label="Reset" variant="neutral" onclick={handleResetContact} class="slds-m-left_small"> </lightning-button>
         </div>
     </div>
 

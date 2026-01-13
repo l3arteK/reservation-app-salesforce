@@ -13,11 +13,19 @@ export default class ExperienceSiteComponent extends LightningElement {
         const { name, value } = event.target;
         this[name] = value;
     }
-    handleSearch() {
+    handleConfirm() {
         getContact({ lastName: this.lastName, email: this.email }).then((contact) => {
             this.contactId = contact;
             this.contactProvided = true;
         });
+    }
+
+    handleResetContact() {
+        this.contactId = null;
+        this.contactProvided = false;
+        this.lastName = null;
+        this.email = null;
+        this.initialData = null;
     }
 
     get isCreateView() {

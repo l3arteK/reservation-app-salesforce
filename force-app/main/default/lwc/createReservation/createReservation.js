@@ -31,6 +31,12 @@ export default class CreateReservation extends LightningElement {
             this.startDate = value.Start_date__c;
             this.endDate = value.End_date__c;
             this.isEditMode = true;
+        } else {
+            this.isEditMode = false;
+            this.reservationId = null;
+            this.resource = null;
+            this.startDate = null;
+            this.endDate = null;
         }
     }
 
