@@ -1,4 +1,9 @@
 <template>
-    <lightning-datatable key-field="id" data={reservations} columns={columns} onrowaction={handleRowAction} hide-checkbox-column>
-    </lightning-datatable>
+    <template lwc:if={contactProvided}>
+        <lightning-datatable key-field="id" data={reservations} columns={columns} onrowaction={handleRowAction} hide-checkbox-column>
+        </lightning-datatable>
+    </template>
+    <template lwc:else>
+        <div class="slds-text-body_regular slds-p-around_medium">Please search and select a contact to manage reservations.</div>
+    </template>
 </template>

@@ -1,10 +1,11 @@
-import { LightningElement, wire } from "lwc";
+import { LightningElement, wire, api } from "lwc";
 import getResources from "@salesforce/apex/CreateReservationController.getResources";
 import createReservation from "@salesforce/apex/CreateReservationController.createReservation";
 import getBookedDates from "@salesforce/apex/CreateReservationController.getBookedDates";
 
 export default class CreateReservation extends LightningElement {
-    contactId;
+    @api contactId;
+    @api contactProvided;
     lastName;
     email;
     startDate;
@@ -14,6 +15,10 @@ export default class CreateReservation extends LightningElement {
     resources;
     resource;
     isSubmitting = false;
+
+    get disabled() {
+        return !this.contactProvided;
+    }
 
     @wire(getResources)
     wireResources({ error, data }) {
@@ -79,7 +84,6 @@ export default class CreateReservation extends LightningElement {
 
     handleReset() {
         this.resetForm();
-        this.contactId = null;
     }
 
     resetForm() {
@@ -107,9 +111,5 @@ export default class CreateReservation extends LightningElement {
         });
 
         return isValid;
-    }
-
-    get searchContactDisabled() {
-        return this.contactId !== undefined && this.contactId !== null;
     }
 }

@@ -11,9 +11,12 @@ export default class ExperienceSiteComponent extends LightningElement {
     }
     handleSearch() {
         getContact({ lastName: this.lastName, email: this.email }).then((contact) => {
-            console.log("Retrieved contact: ", JSON.stringify(contact));
             const manageReservationComponent = this.template.querySelector("c-manage-reservation");
             manageReservationComponent.contactId = contact;
+            manageReservationComponent.contactProvided = true;
+            const createReservationComponent = this.template.querySelector("c-create-reservation");
+            createReservationComponent.contactId = contact;
+            createReservationComponent.contactProvided = true;
         });
     }
 

@@ -19,6 +19,7 @@ const columns = [
 
 export default class ManageReservation extends LightningElement {
     @api contactId;
+    @api contactProvided;
     reservations = [];
     columns = columns;
 

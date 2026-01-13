@@ -13,23 +13,19 @@
                 value={resource}
                 required
                 onchange={handleChange}
+                disabled={disabled}
             ></lightning-combobox>
 
-            <c-custom-date-picker required onchange={handleDateChange}></c-custom-date-picker>
+            <c-custom-date-picker required onchange={handleDateChange} disabled={disabled}></c-custom-date-picker>
 
             <div class="actions slds-m-top_medium">
-                <lightning-button
-                    label="Create reservation"
-                    variant="brand"
-                    onclick={handleSubmit}
-                    disabled={isSubmitting}
-                ></lightning-button>
+                <lightning-button label="Create reservation" variant="brand" onclick={handleSubmit} disabled={disabled}></lightning-button>
 
                 <lightning-button
                     label="Start over"
                     variant="neutral"
                     onclick={handleReset}
-                    disabled={isSubmitting}
+                    disabled={disabled}
                     class="slds-m-left_small"
                 ></lightning-button>
 
