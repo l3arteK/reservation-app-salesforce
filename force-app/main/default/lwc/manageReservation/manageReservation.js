@@ -2,6 +2,7 @@ import getReservations from "@salesforce/apex/ManageReservationController.getRes
 import deleteReservation from "@salesforce/apex/ManageReservationController.deleteReservation";
 import { LightningElement, api, wire } from "lwc";
 import LightningConfirm from "lightning/confirm";
+import { refreshApex } from "@salesforce/apex";
 
 const actions = [
     { label: "Edit", name: "edit", iconName: "utility:edit" },
@@ -23,9 +24,12 @@ export default class ManageReservation extends LightningElement {
     @api contactProvided;
     reservations = [];
     columns = columns;
+    wiredReservationsResult;
 
     @wire(getReservations, { contactId: "$contactId" })
-    wiredReservations({ data, error }) {
+    wiredReservations(result) {
+        this.wiredReservationsResult = result;
+        const { data, error } = result;
         if (data) {
             this.reservations = data.map((reservation) => ({
                 Id: reservation.Id,
@@ -37,6 +41,10 @@ export default class ManageReservation extends LightningElement {
         } else if (error) {
             console.error("Error fetching reservations:", error);
         }
+    }
+
+    handleRefresh() {
+        return refreshApex(this.wiredReservationsResult);
     }
 
     handleRowAction(event) {
@@ -76,7 +84,7 @@ export default class ManageReservation extends LightningElement {
             if (result) {
                 deleteReservation({ reservationId: row.Id })
                     .then(() => {
-                        this.reservations = this.reservations.filter((reservation) => reservation.Id !== row.Id);
+                        this.handleRefresh();
                     })
                     .catch((error) => {
                         console.error("Error deleting reservation: ", error);

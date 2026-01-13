@@ -1,9 +1,41 @@
 <template>
-    <template lwc:if={contactProvided}>
-        <lightning-datatable key-field="id" data={reservations} columns={columns} onrowaction={handleRowAction} hide-checkbox-column>
-        </lightning-datatable>
-    </template>
-    <template lwc:else>
-        <div class="slds-text-body_regular slds-p-around_medium">Please search and select a contact to manage reservations.</div>
-    </template>
+    <lightning-card title="Manage Reservations" icon-name="standard:event">
+        <div slot="actions">
+            <template lwc:if={contactProvided}>
+                <lightning-button-icon
+                    icon-name="utility:refresh"
+                    variant="border-filled"
+                    alternative-text="Refresh Reservations"
+                    title="Refresh Reservations"
+                    onclick={handleRefresh}
+                ></lightning-button-icon>
+            </template>
+        </div>
+
+        <div class="slds-card__body_inner">
+            <template lwc:if={contactProvided}>
+                <div class="slds-m-top_small datatable-container">
+                    <lightning-datatable
+                        key-field="Id"
+                        data={reservations}
+                        columns={columns}
+                        onrowaction={handleRowAction}
+                        hide-checkbox-column
+                        column-widths-mode="auto"
+                    ></lightning-datatable>
+                </div>
+            </template>
+
+            <template lwc:else>
+                <div class="slds-illustration slds-illustration_small slds-p-around_large">
+                    <div class="slds-text-longform slds-text-align_center">
+                        <h3 class="slds-text-heading_medium slds-m-bottom_small">No Contact Selected</h3>
+                        <p class="slds-text-body_regular">
+                            Please use the search section above to find a contact and manage their reservations.
+                        </p>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
 </template>
