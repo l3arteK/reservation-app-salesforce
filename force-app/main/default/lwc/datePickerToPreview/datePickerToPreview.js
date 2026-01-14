@@ -1,8 +1,8 @@
 import { LightningElement, api, wire } from "lwc";
 import getBookedDates from "@salesforce/apex/ResourceController.getBookedDates";
-import { reduceErrors } from "c/reduceErrors/reduceErrors";
+import { reduceErrors } from "c/reduceErrors";
 
-export default class DatePickerToPreview extends LightningElement {
+export default class datePickerToPreview extends LightningElement {
     @api recordId;
     bookedDates = [];
     @wire(getBookedDates, { resourceId: "$recordId" })

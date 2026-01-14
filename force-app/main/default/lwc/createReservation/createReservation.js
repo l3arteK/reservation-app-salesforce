@@ -3,7 +3,7 @@ import getResources from "@salesforce/apex/CreateReservationController.getResour
 import createReservation from "@salesforce/apex/CreateReservationController.createReservation";
 import getBookedDates from "@salesforce/apex/CreateReservationController.getBookedDates";
 import updateReservation from "@salesforce/apex/CreateReservationController.updateReservation";
-import { reduceErrors } from "c/reduceErrors/reduceErrors";
+import { reduceErrors } from "c/reduceErrors";
 import labels from "./labels.js";
 
 export default class CreateReservation extends LightningElement {

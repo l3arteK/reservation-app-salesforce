@@ -3,7 +3,7 @@ import deleteReservation from "@salesforce/apex/ManageReservationController.dele
 import { LightningElement, api, wire } from "lwc";
 import LightningConfirm from "lightning/confirm";
 import { refreshApex } from "@salesforce/apex";
-import { reduceErrors } from "c/reduceErrors/reduceErrors";
+import { reduceErrors } from "c/reduceErrors";
 import labels from "./labels";
 
 const actions = [
@@ -21,7 +21,7 @@ const columns = [
     }
 ];
 
-export default class ManageReservation extends LightningElement {
+export default class manageReservation extends LightningElement {
     @api contactId;
     @api contactProvided;
     reservations = [];
