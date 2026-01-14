@@ -1,12 +1,12 @@
 <template>
-    <lightning-card title="Manage Reservations" icon-name="standard:event">
+    <lightning-card title={labels.MANAGE_RESERVATIONS} icon-name="standard:event">
         <div slot="actions">
             <template lwc:if={contactProvided}>
                 <lightning-button-icon
                     icon-name="utility:refresh"
                     variant="border-filled"
-                    alternative-text="Refresh Reservations"
-                    title="Refresh Reservations"
+                    alternative-text={labels.REFRESH_RESERVATIONS}
+                    title={labels.REFRESH_RESERVATIONS}
                     onclick={handleRefresh}
                 ></lightning-button-icon>
             </template>
@@ -29,10 +29,8 @@
             <template lwc:else>
                 <div class="slds-illustration slds-illustration_small slds-p-around_large">
                     <div class="slds-text-longform slds-text-align_center">
-                        <h3 class="slds-text-heading_medium slds-m-bottom_small">No Contact Selected</h3>
-                        <p class="slds-text-body_regular">
-                            Please use the search section above to find a contact and manage their reservations.
-                        </p>
+                        <h3 class="slds-text-heading_medium slds-m-bottom_small">{labels.NO_CONTACT_SELECTED}</h3>
+                        <p class="slds-text-body_regular">{labels.PLEASE_USE_SEARCH_SECTION}</p>
                     </div>
                 </div>
             </template>

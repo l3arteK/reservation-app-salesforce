@@ -4,8 +4,8 @@ public without sharing class ExperienceSiteController {
         try {
             return ReservationService.getContact(lastName, email);
         } catch (Exception e) {
-            System.debug(LoggingLevel.ERROR, 'Error during retrieval of contact: ' + e.getMessage());
-            throw new AuraHandledException('Error retrieving contact: ' + e.getMessage());
+            System.debug(LoggingLevel.ERROR, System.Label.EXPERIENCE_SITE_ERROR_CONTACT_RETRIEVAL + ': ' + e.getMessage());
+            throw new AuraHandledException(System.Label.EXPERIENCE_SITE_ERROR_CONTACT_RETRIEVAL + ': ' + e.getMessage());
         }
     }
 }

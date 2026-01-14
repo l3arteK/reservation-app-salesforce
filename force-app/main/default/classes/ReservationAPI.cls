@@ -45,7 +45,7 @@ global with sharing class ReservationAPI {
         try {
             if (email == null || lastName == null) {
                 res.statusCode = 400;
-                response = new ApiResponse('BadRequest', 'Both email and lastName parameters are required.');
+                response = new ApiResponse('BadRequest', System.Label.RESERVATION_API_REQUIRED_EMAIL_LASTNAME);
                 return;
             }
             List<Reservation__c> reservations = ReservationService.getReservations(email, lastName);

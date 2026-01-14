@@ -29,7 +29,7 @@ public without sharing class ReservationTriggerHandler {
 
             for (Reservation__c existing : resourceMap.get(res.Resource__c)) {
                 if (res.Start_date__c <= existing.End_date__c && res.End_date__c >= existing.Start_date__c) {
-                    res.addError('The selected dates are not available for the chosen resource.');
+                    res.addError(System.Label.RESERVATION_ERROR_DATES_NOT_AVAILABLE);
                     break;
                 }
             }
@@ -59,9 +59,20 @@ public without sharing class ReservationTriggerHandler {
         Map<Id, Contact> contacts = new Map<Id, Contact>([SELECT Name FROM Contact WHERE Id IN :contactIds]);
 
         for (Reservation__c res : newReservations) {
-            String contactName = contacts.containsKey(res.Contact__c) ? contacts.get(res.Contact__c).Name : 'Unknown Contact';
-            String resourceName = resources.containsKey(res.Resource__c) ? resources.get(res.Resource__c).Name : 'Unknown Resource';
-            String dateRange = '(' + res.Start_date__c.format() + ' to ' + res.End_date__c.format() + ')';
+            String contactName = contacts.containsKey(res.Contact__c)
+                ? contacts.get(res.Contact__c).Name
+                : System.Label.RESERVATION_UNKNOWN_CONTACT;
+            String resourceName = resources.containsKey(res.Resource__c)
+                ? resources.get(res.Resource__c).Name
+                : System.Label.RESERVATION_UNKNOWN_RESOURCE;
+            String dateRange =
+                '(' +
+                res.Start_date__c.format() +
+                ' ' +
+                System.Label.RESERVATION_DATE_RANGE_TO +
+                ' ' +
+                res.End_date__c.format() +
+                ')';
 
             res.Name = contactName + ' - ' + resourceName + ' ' + dateRange;
         }

@@ -1,7 +1,8 @@
 import { LightningElement, api, wire } from "lwc";
 import getBookedDates from "@salesforce/apex/ResourceController.getBookedDates";
+import { reduceErrors } from "c/reduceErrors";
 
-export default class DatePickerToPreview extends LightningElement {
+export default class datePickerToPreview extends LightningElement {
     @api recordId;
     bookedDates = [];
     @wire(getBookedDates, { resourceId: "$recordId" })
@@ -9,7 +10,7 @@ export default class DatePickerToPreview extends LightningElement {
         if (data) {
             this.bookedDates = data;
         } else if (error) {
-            console.error("Error fetching booked dates:", error);
+            console.error(reduceErrors(error));
         }
     }
 }

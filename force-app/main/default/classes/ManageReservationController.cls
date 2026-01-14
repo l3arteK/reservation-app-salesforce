@@ -6,8 +6,8 @@ public without sharing class ManageReservationController {
         try {
             return ReservationService.getReservations(contactId);
         } catch (Exception e) {
-            System.debug(LoggingLevel.ERROR, 'Error during retrieval of reservations: ' + e.getMessage());
-            throw new AuraHandledException('Error retrieving reservations: ' + e.getMessage());
+            System.debug(LoggingLevel.ERROR, System.Label.MANAGE_RESERVATION_ERROR_RETRIEVE_RESERVATIONS + ': ' + e.getMessage());
+            throw new AuraHandledException(System.Label.MANAGE_RESERVATION_ERROR_RETRIEVE_RESERVATIONS);
         }
     }
 
@@ -16,8 +16,8 @@ public without sharing class ManageReservationController {
         try {
             ReservationService.deleteReservation(reservationId);
         } catch (Exception e) {
-            System.debug(LoggingLevel.ERROR, 'Error during deletion of reservation: ' + e.getMessage());
-            throw new AuraHandledException('Error deleting reservation: ' + e.getMessage());
+            System.debug(LoggingLevel.ERROR, System.Label.MANAGE_RESERVATION_ERROR_DELETE_RESERVATION + ': ' + e.getMessage());
+            throw new AuraHandledException(System.Label.MANAGE_RESERVATION_ERROR_DELETE_RESERVATION);
         }
     }
 }
