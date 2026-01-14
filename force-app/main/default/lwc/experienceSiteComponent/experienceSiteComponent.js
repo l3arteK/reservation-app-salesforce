@@ -2,7 +2,7 @@ import getContact from "@salesforce/apex/ExperienceSiteController.getContact";
 import { LightningElement } from "lwc";
 import labels from "./labels";
 
-export default class experienceSiteComponent extends LightningElement {
+export default class ExperienceSiteComponent extends LightningElement {
     lastName;
     email;
     viewMode = "create";
