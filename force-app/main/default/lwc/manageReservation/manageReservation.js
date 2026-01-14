@@ -3,16 +3,18 @@ import deleteReservation from "@salesforce/apex/ManageReservationController.dele
 import { LightningElement, api, wire } from "lwc";
 import LightningConfirm from "lightning/confirm";
 import { refreshApex } from "@salesforce/apex";
+import { reduceErrors } from "c/reduceErrors/reduceErrors";
+import labels from "./labels";
 
 const actions = [
-    { label: "Edit", name: "edit", iconName: "utility:edit" },
-    { label: "Delete", name: "delete", iconName: "utility:delete" }
+    { label: labels.EDIT, name: "edit", iconName: "utility:edit" },
+    { label: labels.DELETE, name: "delete", iconName: "utility:delete" }
 ];
 
 const columns = [
-    { label: "Resource", fieldName: "ResourceName" },
-    { label: "Start Date", fieldName: "Start_date__c", type: "date" },
-    { label: "End Date", fieldName: "End_date__c", type: "date" },
+    { label: labels.RESOURCE, fieldName: "ResourceName" },
+    { label: labels.START_DATE, fieldName: "Start_date__c", type: "date" },
+    { label: labels.END_DATE, fieldName: "End_date__c", type: "date" },
     {
         type: "action",
         typeAttributes: { rowActions: actions }
@@ -25,6 +27,7 @@ export default class ManageReservation extends LightningElement {
     reservations = [];
     columns = columns;
     wiredReservationsResult;
+    labels = labels;
 
     @wire(getReservations, { contactId: "$contactId" })
     wiredReservations(result) {
@@ -39,7 +42,7 @@ export default class ManageReservation extends LightningElement {
                 ResourceId: reservation.Resource__c
             }));
         } else if (error) {
-            console.error("Error fetching reservations:", error);
+            console.error(reduceErrors(error));
         }
     }
 
@@ -68,18 +71,13 @@ export default class ManageReservation extends LightningElement {
 
     handleDelete(row) {
         LightningConfirm.open({
-            message:
-                "Are you sure you want to delete " +
-                row.ResourceName +
-                " from " +
-                row.Start_date__c +
-                " to " +
-                row.End_date__c +
-                " reservation? ",
+            message: labels.RESERVATION_CONFIRMATION_MESSAGE.replace("{0}", row.ResourceName)
+                .replace("{1}", row.Start_date__c)
+                .replace("{2}", row.End_date__c),
 
             variant: "header",
             theme: "warning",
-            label: "Confirm Deletion"
+            label: labels.CONFIRM_DELETION
         }).then((result) => {
             if (result) {
                 deleteReservation({ reservationId: row.Id })
@@ -87,7 +85,7 @@ export default class ManageReservation extends LightningElement {
                         this.handleRefresh();
                     })
                     .catch((error) => {
-                        console.error("Error deleting reservation: ", error);
+                        console.error(reduceErrors(error));
                     });
             }
         });

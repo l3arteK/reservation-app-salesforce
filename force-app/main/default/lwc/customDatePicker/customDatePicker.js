@@ -1,22 +1,24 @@
 import { LightningElement, api } from "lwc";
+import labels from "./labels.js";
 const today = new Date();
 const MONTH_NAMES = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December"
+    labels.JANUARY,
+    labels.FEBRUARY,
+    labels.MARCH,
+    labels.APRIL,
+    labels.MAY,
+    labels.JUNE,
+    labels.JULY,
+    labels.AUGUST,
+    labels.SEPTEMBER,
+    labels.OCTOBER,
+    labels.NOVEMBER,
+    labels.DECEMBER
 ];
 
 export default class CustomDatePicker extends LightningElement {
     _isDatePickerOpen = false;
+    labels = labels;
 
     currentMonth = today.getMonth();
     currentYear = today.getFullYear();
@@ -105,9 +107,9 @@ export default class CustomDatePicker extends LightningElement {
         let error = "";
 
         if (!value) {
-            error = "Completing this field is required.";
+            error = labels.COMPLETING_FIELD_IS_REQUIRED;
         } else if (!this.isValidRealDate(value)) {
-            error = "Your entry does not match the allowed format: 01/06/2026";
+            error = labels.ENTRY_DOES_NOT_MATCH_FORMAT;
         }
 
         input.setCustomValidity(error);
@@ -416,6 +418,6 @@ export default class CustomDatePicker extends LightningElement {
     }
 
     get legendMessage() {
-        return this.preview ? "Booked Dates" : "Start and End Date";
+        return this.preview ? labels.BOOKED_DATES : labels.START_AND_END_DATE;
     }
 }

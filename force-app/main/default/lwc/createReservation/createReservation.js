@@ -3,6 +3,9 @@ import getResources from "@salesforce/apex/CreateReservationController.getResour
 import createReservation from "@salesforce/apex/CreateReservationController.createReservation";
 import getBookedDates from "@salesforce/apex/CreateReservationController.getBookedDates";
 import updateReservation from "@salesforce/apex/CreateReservationController.updateReservation";
+import { reduceErrors } from "c/reduceErrors/reduceErrors";
+import labels from "./labels.js";
+
 export default class CreateReservation extends LightningElement {
     @api lastName;
     @api email;
@@ -18,6 +21,7 @@ export default class CreateReservation extends LightningElement {
     subscription = null;
     isEditMode = false;
     reservationId;
+    labels = labels;
 
     get disabled() {
         return !this.contactProvided;
@@ -49,7 +53,7 @@ export default class CreateReservation extends LightningElement {
         if (data) {
             this.resources = data;
         } else if (error) {
-            console.error("Error retrieving resources: ", error);
+            this.showBanner(reduceErrors(error), "error");
         }
     }
 
@@ -65,7 +69,7 @@ export default class CreateReservation extends LightningElement {
                     }
                 })
                 .catch((error) => {
-                    console.error("Error retrieving booked dates: ", error);
+                    this.showBanner(reduceErrors(error), "error");
                 });
         }
     }
@@ -78,7 +82,7 @@ export default class CreateReservation extends LightningElement {
 
     async handleSubmit() {
         if (!this.validateForm()) {
-            this.showBanner("Please correct the errors on the form.", "error");
+            this.showBanner(labels.PLEASE_CORRECT_ERRORS_ON_FORM, "error");
             return;
         }
 
@@ -94,9 +98,9 @@ export default class CreateReservation extends LightningElement {
         try {
             await action(params);
             this.resetForm();
-            this.showBanner(`Reservation ${this.isEditMode ? "updated" : "created"} successfully.`, "success");
+            this.showBanner(this.isEditMode ? labels.RESERVATION_UPDATED_SUCCESSFULLY : labels.RESERVATION_CREATED_SUCCESSFULLY, "success");
         } catch (error) {
-            this.showBanner(error.body?.message || "An error occurred", "error");
+            this.showBanner(reduceErrors(error), "error");
         } finally {
             this.isSubmitting = false;
         }
@@ -126,7 +130,7 @@ export default class CreateReservation extends LightningElement {
     }
 
     get submitButtonLabel() {
-        return this.isEditMode ? "Update Reservation" : "Create Reservation";
+        return this.isEditMode ? labels.UPDATE_RESERVATION : labels.CREATE_RESERVATION;
     }
 
     validateForm() {

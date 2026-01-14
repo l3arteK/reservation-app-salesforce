@@ -1,11 +1,11 @@
 <template>
-    <lightning-card title="Create Reservation" icon-name="standard:event">
+    <lightning-card title={labels.CREATE_RESERVATION} icon-name="standard:event">
         <template if:true={message}>
             <div class={messageClass}>{message}</div>
         </template>
         <div class="section slds-m-top_medium">
             <lightning-combobox
-                label="Resource"
+                label={labels.RESOURCE}
                 name="resource"
                 options={resources}
                 value={resource}
@@ -26,7 +26,7 @@
                 <lightning-button label={submitButtonLabel} variant="brand" onclick={handleSubmit} disabled={disabled}></lightning-button>
 
                 <lightning-button
-                    label="Start over"
+                    label={labels.START_OVER}
                     variant="neutral"
                     onclick={handleReset}
                     disabled={disabled}

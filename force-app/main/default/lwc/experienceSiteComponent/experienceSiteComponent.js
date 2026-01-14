@@ -1,6 +1,6 @@
 import getContact from "@salesforce/apex/ExperienceSiteController.getContact";
 import { LightningElement } from "lwc";
-
+import labels from "./labels";
 export default class ExperienceSiteComponent extends LightningElement {
     lastName;
     email;
@@ -8,6 +8,7 @@ export default class ExperienceSiteComponent extends LightningElement {
     contactId;
     contactProvided = false;
     initialData;
+    labels = labels;
 
     handleChange(event) {
         const { name, value } = event.target;

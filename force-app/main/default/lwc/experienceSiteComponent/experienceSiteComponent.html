@@ -1,8 +1,8 @@
 <template>
-    <lightning-card title="Enter contact info" icon-name="standard:avatar">
+    <lightning-card title={labels.ENTER_CONTACT_INFO} icon-name="standard:avatar">
         <div class="section slds-m-top_medium">
             <lightning-input
-                label="Last name"
+                label={labels.LAST_NAME}
                 name="lastName"
                 required
                 onchange={handleChange}
@@ -10,7 +10,7 @@
             ></lightning-input>
 
             <lightning-input
-                label="Email address"
+                label={labels.EMAIL_ADDRESS}
                 name="email"
                 type="email"
                 required
@@ -19,8 +19,8 @@
             ></lightning-input>
 
             <div class="slds-m-top_small">
-                <lightning-button label="Confirm contact" variant="brand" onclick={handleConfirm}> </lightning-button>
-                <lightning-button label="Reset" variant="neutral" onclick={handleResetContact} class="slds-m-left_small">
+                <lightning-button label={labels.CONFIRM_CONTACT} variant="brand" onclick={handleConfirm}> </lightning-button>
+                <lightning-button label={labels.RESET} variant="neutral" onclick={handleResetContact} class="slds-m-left_small">
                 </lightning-button>
             </div>
         </div>
@@ -28,10 +28,11 @@
 
     <div class="slds-grid slds-gutters">
         <div class={NewReservationButtonClass}>
-            <lightning-button label="New Reservation" icon-name="utility:add" onclick={showCreateView} variant="base"> </lightning-button>
+            <lightning-button label={labels.NEW_RESERVATION} icon-name="utility:add" onclick={showCreateView} variant="base">
+            </lightning-button>
         </div>
         <div class={ManageReservationsButtonClass}>
-            <lightning-button label="Manage My Reservations" icon-name="utility:table" onclick={showManageView} variant="base">
+            <lightning-button label={labels.MANAGE_MY_RESERVATIONS} icon-name="utility:table" onclick={showManageView} variant="base">
             </lightning-button>
         </div>
     </div>

@@ -7,7 +7,7 @@
                     <div class="slds-form-element__row">
                         <template lwc:if={isNotPreview}>
                             <div class="slds-form-element slds-dropdown-trigger slds-dropdown-trigger_click">
-                                <label class="slds-form-element__label" for="date-input-id-01-end_selected">Start Date</label>
+                                <label class="slds-form-element__label" for="date-input-id-01-end_selected">{labels.START_DATE}</label>
                                 <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
                                     <input
                                         type="text"
@@ -24,22 +24,21 @@
                                     <button
                                         class="slds-button slds-button_icon slds-input__icon slds-input__icon_right"
                                         onclick={toggleDatePicker}
-                                        title="Select a date"
+                                        title={labels.SELECT_A_DATE}
                                         disabled={disabled}
                                     >
                                         <lightning-icon
                                             icon-name="utility:event"
                                             size="x-small"
-                                            alternative-text="Select a date"
+                                            alternative-text={labels.SELECT_A_DATE}
                                         ></lightning-icon>
                                     </button>
                                 </div>
-                                <div class="slds-form-element__help slds-assistive-text">Format: 12/31/2024</div>
                             </div>
                         </template>
                         <div class={dateTimePickerClass}>
                             <template lwc:if={isNotPreview}>
-                                <label class="slds-form-element__label" for="date-input-id-02-end_selected">End Date</label>
+                                <label class="slds-form-element__label" for="date-input-id-02-end_selected">{labels.END_DATE}</label>
 
                                 <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
                                     <input
@@ -57,18 +56,16 @@
                                     <button
                                         class="slds-button slds-button_icon slds-input__icon slds-input__icon_right"
                                         onclick={toggleDatePicker}
-                                        title="Select a date"
+                                        title={labels.SELECT_A_DATE}
                                     >
                                         <lightning-icon
                                             icon-name="utility:event"
                                             size="x-small"
-                                            alternative-text="Select a date"
+                                            alternative-text={labels.SELECT_A_DATE}
                                             disabled={disabled}
                                         ></lightning-icon>
-                                        <span class="slds-assistive-text">Select a date</span>
                                     </button>
                                 </div>
-                                <div class="slds-form-element__help slds-assistive-text">Format: 12/31/2024</div>
                             </template>
                             <div class="slds-datepicker slds-dropdown slds-dropdown_left" role="dialog">
                                 <div class="slds-datepicker__filter slds-grid">
@@ -76,7 +73,7 @@
                                         <div class="slds-align-middle">
                                             <lightning-button-icon
                                                 icon-name="utility:chevronleft"
-                                                alternative-text="Previous month"
+                                                alternative-text={labels.PREVIOUS_MONTH}
                                                 onclick={handlePrevMonth}
                                                 variant="bare"
                                             ></lightning-button-icon>
@@ -85,7 +82,7 @@
                                         <div class="slds-align-middle">
                                             <lightning-button-icon
                                                 icon-name="utility:chevronright"
-                                                alternative-text="Next month"
+                                                alternative-text={labels.NEXT_MONTH}
                                                 onclick={handleNextMonth}
                                                 variant="bare"
                                             ></lightning-button-icon>

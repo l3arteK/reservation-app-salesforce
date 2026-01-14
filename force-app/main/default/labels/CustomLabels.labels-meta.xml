@@ -91,4 +91,305 @@
         <shortDescription>Date range separator</shortDescription>
         <value>to</value>
     </labels>
+    <labels>
+        <fullName>PLEASE_CORRECT_ERRORS_ON_FORM</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Please correct errors message</shortDescription>
+        <value>Please correct the errors on the form.</value>
+    </labels>
+    <labels>
+        <fullName>RESERVATION_UPDATED_SUCCESSFULLY</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Reservation updated successfully</shortDescription>
+        <value>Reservation updated successfully.</value>
+    </labels>
+    <labels>
+        <fullName>RESERVATION_CREATED_SUCCESSFULLY</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Reservation created successfully</shortDescription>
+        <value>Reservation created successfully.</value>
+    </labels>
+    <labels>
+        <fullName>UPDATE_RESERVATION</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Update Reservation button label</shortDescription>
+        <value>Update Reservation</value>
+    </labels>
+    <labels>
+        <fullName>CREATE_RESERVATION</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Create Reservation button label</shortDescription>
+        <value>Create Reservation</value>
+    </labels>
+    <labels>
+        <fullName>START_OVER</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Start over button label</shortDescription>
+        <value>Start over</value>
+    </labels>
+    <labels>
+        <fullName>RESOURCE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Resource combobox label</shortDescription>
+        <value>Resource</value>
+    </labels>
+    <labels>
+        <fullName>EDIT</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Edit button label</shortDescription>
+        <value>Edit</value>
+    </labels>
+    <labels>
+        <fullName>DELETE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Delete button label</shortDescription>
+        <value>Delete</value>
+    </labels>
+    <labels>
+        <fullName>START_DATE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Start date label</shortDescription>
+        <value>Start Date</value>
+    </labels>
+    <labels>
+        <fullName>END_DATE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>End date label</shortDescription>
+        <value>End Date</value>
+    </labels>
+    <labels>
+        <fullName>CONFIRM_DELETION</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Confirm deletion header</shortDescription>
+        <value>Confirm Deletion</value>
+    </labels>
+    <labels>
+        <fullName>RESERVATION_CONFIRMATION_MESSAGE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Reservation deletion confirmation message</shortDescription>
+        <value>Are you sure you want to delete {0} from {1} to {2} reservation?</value>
+    </labels>
+    <labels>
+        <fullName>MANAGE_RESERVATIONS</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Manage reservations card title</shortDescription>
+        <value>Manage Reservations</value>
+    </labels>
+    <labels>
+        <fullName>REFRESH_RESERVATIONS</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Refresh reservations button title</shortDescription>
+        <value>Refresh Reservations</value>
+    </labels>
+    <labels>
+        <fullName>NO_CONTACT_SELECTED</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No contact selected message</shortDescription>
+        <value>No Contact Selected</value>
+    </labels>
+    <labels>
+        <fullName>PLEASE_USE_SEARCH_SECTION</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Please use search section message</shortDescription>
+        <value>Please use the search section above to find a contact and manage their reservations.</value>
+    </labels>
+    <labels>
+        <fullName>JANUARY</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Month name January</shortDescription>
+        <value>January</value>
+    </labels>
+    <labels>
+        <fullName>FEBRUARY</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Month name February</shortDescription>
+        <value>February</value>
+    </labels>
+    <labels>
+        <fullName>MARCH</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Month name March</shortDescription>
+        <value>March</value>
+    </labels>
+    <labels>
+        <fullName>APRIL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Month name April</shortDescription>
+        <value>April</value>
+    </labels>
+    <labels>
+        <fullName>MAY</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Month name May</shortDescription>
+        <value>May</value>
+    </labels>
+    <labels>
+        <fullName>JUNE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Month name June</shortDescription>
+        <value>June</value>
+    </labels>
+    <labels>
+        <fullName>JULY</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Month name July</shortDescription>
+        <value>July</value>
+    </labels>
+    <labels>
+        <fullName>AUGUST</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Month name August</shortDescription>
+        <value>August</value>
+    </labels>
+    <labels>
+        <fullName>SEPTEMBER</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Month name September</shortDescription>
+        <value>September</value>
+    </labels>
+    <labels>
+        <fullName>OCTOBER</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Month name October</shortDescription>
+        <value>October</value>
+    </labels>
+    <labels>
+        <fullName>NOVEMBER</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Month name November</shortDescription>
+        <value>November</value>
+    </labels>
+    <labels>
+        <fullName>DECEMBER</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Month name December</shortDescription>
+        <value>December</value>
+    </labels>
+    <labels>
+        <fullName>COMPLETING_FIELD_IS_REQUIRED</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Required field message</shortDescription>
+        <value>Completing this field is required.</value>
+    </labels>
+    <labels>
+        <fullName>ENTRY_DOES_NOT_MATCH_FORMAT</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Invalid date format message</shortDescription>
+        <value>Your entry does not match the allowed format: 01/06/2026</value>
+    </labels>
+    <labels>
+        <fullName>BOOKED_DATES</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Booked dates label</shortDescription>
+        <value>Booked Dates</value>
+    </labels>
+    <labels>
+        <fullName>START_AND_END_DATE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Start and end date label</shortDescription>
+        <value>Start and End Date</value>
+    </labels>
+    <labels>
+        <fullName>PREVIOUS_MONTH</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Previous month button label</shortDescription>
+        <value>Previous month</value>
+    </labels>
+    <labels>
+        <fullName>NEXT_MONTH</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Next month button label</shortDescription>
+        <value>Next month</value>
+    </labels>
+    <labels>
+        <fullName>SELECT_A_DATE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Select a date button label</shortDescription>
+        <value>Select a date</value>
+    </labels>
+    <labels>
+        <fullName>ENTER_CONTACT_INFO</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Enter contact info title</shortDescription>
+        <value>Enter contact info</value>
+    </labels>
+    <labels>
+        <fullName>LAST_NAME</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Last name input label</shortDescription>
+        <value>Last name</value>
+    </labels>
+    <labels>
+        <fullName>EMAIL_ADDRESS</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email address input label</shortDescription>
+        <value>Email address</value>
+    </labels>
+    <labels>
+        <fullName>CONFIRM_CONTACT</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Confirm contact button label</shortDescription>
+        <value>Confirm contact</value>
+    </labels>
+    <labels>
+        <fullName>RESET</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Reset button label</shortDescription>
+        <value>Reset</value>
+    </labels>
+    <labels>
+        <fullName>NEW_RESERVATION</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>New reservation button label</shortDescription>
+        <value>New Reservation</value>
+    </labels>
+    <labels>
+        <fullName>MANAGE_MY_RESERVATIONS</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Manage my reservations button label</shortDescription>
+        <value>Manage My Reservations</value>
+    </labels>
 </CustomLabels>
