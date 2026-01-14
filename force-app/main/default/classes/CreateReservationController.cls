@@ -8,8 +8,8 @@ public without sharing class CreateReservationController {
             }
             return options;
         } catch (Exception e) {
-            System.debug(LoggingLevel.ERROR, 'Error during retrieval of resources: ' + e.getMessage());
-            throw new AuraHandledException('Error retrieving resources: ' + e.getMessage());
+            System.debug(LoggingLevel.ERROR, System.Label.CREATE_RESERVATION_ERROR_RETRIEVE_RESOURCES + ': ' + e.getMessage());
+            throw new AuraHandledException(System.Label.CREATE_RESERVATION_ERROR_RETRIEVE_RESOURCES);
         }
     }
 
@@ -18,8 +18,8 @@ public without sharing class CreateReservationController {
         try {
             return ReservationService.getBookedDates(resourceId);
         } catch (Exception e) {
-            System.debug(LoggingLevel.ERROR, 'Error during retrieval of booked dates: ' + e.getMessage());
-            throw new AuraHandledException('Error retrieving booked dates: ' + e.getMessage());
+            System.debug(LoggingLevel.ERROR, System.Label.CREATE_RESERVATION_ERROR_RETRIEVE_BOOKED_DATES + ': ' + e.getMessage());
+            throw new AuraHandledException(System.Label.CREATE_RESERVATION_ERROR_RETRIEVE_BOOKED_DATES);
         }
     }
 
@@ -28,8 +28,8 @@ public without sharing class CreateReservationController {
         try {
             ReservationService.createReservation(lastName, email, resourceId, startDate, endDate);
         } catch (Exception e) {
-            System.debug(LoggingLevel.ERROR, 'Error during creation of reservation: ' + e.getMessage());
-            throw new AuraHandledException('An error occurred during creation of reservation: ' + e.getMessage());
+            System.debug(LoggingLevel.ERROR, System.Label.CREATE_RESERVATION_ERROR_CREATE_RESERVATION + ': ' + e.getMessage());
+            throw new AuraHandledException(System.Label.CREATE_RESERVATION_ERROR_CREATE_RESERVATION);
         }
     }
 
@@ -38,8 +38,8 @@ public without sharing class CreateReservationController {
         try {
             ReservationService.updateReservation(reservationId, resourceId, startDate, endDate);
         } catch (Exception e) {
-            System.debug(LoggingLevel.ERROR, 'Error during update of reservation: ' + e.getMessage());
-            throw new AuraHandledException('An error occurred during update of reservation: ' + e.getMessage());
+            System.debug(LoggingLevel.ERROR, System.Label.CREATE_RESERVATION_ERROR_UPDATE_RESERVATION + ': ' + e.getMessage());
+            throw new AuraHandledException(System.Label.CREATE_RESERVATION_ERROR_UPDATE_RESERVATION);
         }
     }
 }

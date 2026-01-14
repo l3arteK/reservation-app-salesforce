@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>CREATE_RESERVATION_ERROR_RETRIEVE_RESOURCES</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error retrieving resources</shortDescription>
+        <value>An error occurred while retrieving resources</value>
+    </labels>
+    <labels>
+        <fullName>CREATE_RESERVATION_ERROR_RETRIEVE_BOOKED_DATES</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error retrieving booked dates</shortDescription>
+        <value>An error occurred while retrieving booked dates</value>
+    </labels>
+    <labels>
+        <fullName>CREATE_RESERVATION_ERROR_CREATE_RESERVATION</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error creating reservation</shortDescription>
+        <value>An error occurred during the creation of the reservation</value>
+    </labels>
+    <labels>
+        <fullName>CREATE_RESERVATION_ERROR_UPDATE_RESERVATION</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error updating reservation</shortDescription>
+        <value>An error occurred during the update of reservation</value>
+    </labels>
+</CustomLabels>
