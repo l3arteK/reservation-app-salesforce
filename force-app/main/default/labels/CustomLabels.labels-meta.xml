@@ -56,4 +56,39 @@
         <shortDescription>Error retrieving booked dates</shortDescription>
         <value>An error occurred during booked dates retrieval</value>
     </labels>
+    <labels>
+        <fullName>RESERVATION_API_REQUIRED_EMAIL_LASTNAME</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Missing parameters</shortDescription>
+        <value>Both email and lastName parameters are required.</value>
+    </labels>
+    <labels>
+        <fullName>RESERVATION_ERROR_DATES_NOT_AVAILABLE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Dates not available</shortDescription>
+        <value>The selected dates are not available for the chosen resource.</value>
+    </labels>
+    <labels>
+        <fullName>RESERVATION_UNKNOWN_CONTACT</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Unknown contact</shortDescription>
+        <value>Unknown Contact</value>
+    </labels>
+    <labels>
+        <fullName>RESERVATION_UNKNOWN_RESOURCE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Unknown resource</shortDescription>
+        <value>Unknown Resource</value>
+    </labels>
+    <labels>
+        <fullName>RESERVATION_DATE_RANGE_TO</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Date range separator</shortDescription>
+        <value>to</value>
+    </labels>
 </CustomLabels>
