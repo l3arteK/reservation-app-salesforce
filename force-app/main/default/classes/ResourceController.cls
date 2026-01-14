@@ -4,8 +4,8 @@ public with sharing class ResourceController {
         try {
             return ReservationService.getBookedDates(resourceId);
         } catch (Exception e) {
-            System.debug(LoggingLevel.ERROR, 'Error during retrieval of booked dates: ' + e.getMessage());
-            throw new AuraHandledException('Error retrieving booked dates: ' + e.getMessage());
+            System.debug(LoggingLevel.ERROR, System.Label.RESOURCE_ERROR_BOOKED_DATES_RETRIEVAL + ': ' + e.getMessage());
+            throw new AuraHandledException(System.Label.RESOURCE_ERROR_BOOKED_DATES_RETRIEVAL);
         }
     }
 }

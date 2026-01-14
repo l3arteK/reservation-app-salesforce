@@ -28,4 +28,32 @@
         <shortDescription>Error updating reservation</shortDescription>
         <value>An error occurred during the update of reservation</value>
     </labels>
+    <labels>
+        <fullName>EXPERIENCE_SITE_ERROR_CONTACT_RETRIEVAL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error retrieving contact</shortDescription>
+        <value>An error occurred during contact retrieval</value>
+    </labels>
+    <labels>
+        <fullName>MANAGE_RESERVATION_ERROR_RETRIEVE_RESERVATIONS</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error retrieving reservations</shortDescription>
+        <value>An error occurred while retrieving reservations</value>
+    </labels>
+    <labels>
+        <fullName>MANAGE_RESERVATION_ERROR_DELETE_RESERVATION</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error deleting reservation</shortDescription>
+        <value>An error occurred during reservation deletion</value>
+    </labels>
+    <labels>
+        <fullName>RESOURCE_ERROR_BOOKED_DATES_RETRIEVAL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error retrieving booked dates</shortDescription>
+        <value>An error occurred during booked dates retrieval</value>
+    </labels>
 </CustomLabels>
