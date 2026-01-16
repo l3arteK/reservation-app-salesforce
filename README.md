@@ -1,6 +1,6 @@
 ## About the app
 
-Reservation Manager is a lightweight Salesforce package for booking and managing resources (rooms, equipment) with time‑slot availability, both for internal users and Experience Cloud portals.
+Reservation Manager is a lightweight Salesforce package for booking and managing resources (rooms, equipment) with time‑slot availability, both for internal users and Experience Cloud portal.
 
 Key features
 
@@ -37,14 +37,6 @@ Architecture (short)
 - **Security**: Permission Sets, Field-Level Security
 - **Testing**: Comprehensive unit tests for all layers
 - **Deployment**: Salesforce DX project structure
-
-## Project Highlights
-
-- **Modular Design**: Easily extendable components and services
-- **Multi-User Support**: Internal and external user experiences
-- **Flexible Validation**: Custom date rules and business logic
-- **Performance Optimized**: Bulkified Apex code and efficient queries
-- **Well Tested**: 75%+ code coverage with comprehensive test suites
 
 ## Visual Overview
 
