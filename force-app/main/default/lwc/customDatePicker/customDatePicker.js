@@ -36,7 +36,7 @@ export default class CustomDatePicker extends LightningElement {
     }
 
     @api set valueStartDate(value) {
-        this.rangeStart = value ? new Date(value) : null;
+        this.rangeStart = value ? this.normalizeDate(value) : null;
     }
     get valueStartDate() {
         return this.rangeStart;
@@ -46,7 +46,7 @@ export default class CustomDatePicker extends LightningElement {
         return this.rangeEnd;
     }
     @api set valueEndDate(value) {
-        this.rangeEnd = value ? new Date(value) : null;
+        this.rangeEnd = value ? this.normalizeDate(value) : null;
     }
 
     @api
@@ -226,7 +226,9 @@ export default class CustomDatePicker extends LightningElement {
     }
 
     createDate(day) {
-        return new Date(this.currentYear, this.currentMonth, day);
+        const d = new Date(this.currentYear, this.currentMonth, day);
+        d.setHours(0, 0, 0, 0);
+        return d;
     }
 
     clearRangeStyles() {
@@ -237,7 +239,6 @@ export default class CustomDatePicker extends LightningElement {
 
     applyRangeStyles() {
         this.clearRangeStyles();
-
         if (!this.rangeStart || !(this.rangeStart instanceof Date)) return;
 
         const cells = this.template.querySelectorAll("td:not(.slds-disabled-text)");
@@ -245,7 +246,6 @@ export default class CustomDatePicker extends LightningElement {
         cells.forEach((cell) => {
             const day = Number(cell.dataset.day);
             const cellDate = this.createDate(day);
-
             if (this.rangeStart && !this.rangeEnd && cellDate.getTime() === this.rangeStart.getTime()) {
                 cell.classList.add("slds-is-selected");
             }
@@ -274,6 +274,12 @@ export default class CustomDatePicker extends LightningElement {
         const dd = String(date.getDate()).padStart(2, "0");
         const yyyy = date.getFullYear();
         return `${mm}/${dd}/${yyyy}`;
+    }
+
+    normalizeDate(date) {
+        const d = new Date(date);
+        d.setHours(0, 0, 0, 0);
+        return d;
     }
 
     handleInputChange(event) {
@@ -339,13 +345,13 @@ export default class CustomDatePicker extends LightningElement {
         const clickedDate = this.createDate(day);
 
         if (!this.rangeStart || (this.rangeStart && this.rangeEnd)) {
-            this.rangeStart = clickedDate;
+            this.rangeStart = this.normalizeDate(clickedDate);
             this.rangeEnd = null;
         } else if (clickedDate < this.rangeStart) {
-            this.rangeStart = clickedDate;
+            this.rangeStart = this.normalizeDate(clickedDate);
             this.rangeEnd = null;
         } else {
-            this.rangeEnd = clickedDate;
+            this.rangeEnd = this.normalizeDate(clickedDate);
         }
 
         this.applyRangeStyles();
