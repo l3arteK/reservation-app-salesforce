@@ -253,10 +253,7 @@ export default class CustomDatePicker extends LightningElement {
             if (this.rangeStart && this.rangeEnd instanceof Date) {
                 if (cellDate >= this.rangeStart && cellDate <= this.rangeEnd) {
                     cell.classList.add("slds-is-selected");
-
-                    if (cellDate.getTime() === this.rangeStart.getTime() || cellDate.getTime() === this.rangeEnd.getTime()) {
-                        cell.classList.add("slds-is-selected-multi");
-                    }
+                    cell.classList.add("slds-is-selected-multi");
                 }
             }
         });
